@@ -1,0 +1,56 @@
+<h4>Particular</h4>
+<h2>{{ user.first_name }} {{ user.last_name }} </h2>
+<hr>
+<h2>aki: {{ user.profile.address }}</h2>
+<hr>
+<div class="container my-4">
+    <h3 class="text-center">Mis Autos</h3>
+    <!-- profile/particular.html -->
+    <ul>
+        {% for vehicle in vehicles %}
+            <li>{{ vehicle.brand }} - {{ vehicle.plate }}</li>
+        {% endfor %}
+    </ul>
+
+
+
+
+    <ul>
+        {% for car in object_list.all %}
+        <li>{{ car.brand }} {{ car.plate }} {{ car.year }}</li>
+        {% endfor %}
+    </ul>
+</div>
+<hr>
+<div class="row mb-3 text-center">
+    <div class="col-xl-4 themed-grid-col"> <b>Usuario</b>: {{ user.username }}</div>
+    <div class="col-xl-4 themed-grid-col"></div>
+    <div class="col-xl-4 themed-grid-col"></div>
+</div>
+<hr>
+<!-- profile/particular.html -->
+<ul>
+    <p>recorcholis</p>
+    {% for car in cars %}
+        <li>{{ car.brand }} - {{ car.plate }}</li>
+    {% endfor %}
+</ul>
+<hr>
+
+<div class="container my-4">
+<ul class="list-group">
+    {% for car in object_list.all %}
+    <li class="list-group-item"> <b>Marca: </b>{{ car.brand }} <b>Patente: </b> {{ car.plate }} {{ car.year }}</li>
+    {% endfor %}
+</ul>
+</div>
+<div><hr>
+    <h3>a ver</h3>
+    <div class="container my-4">
+        <ul class="list-group">
+            {% for car in object_list.all %}
+            <li class="list-group-item"> <b>Marca: </b>{{ car.brand }} <b>Patente: </b> {{ car.plate }} {{ car.year }}</li>
+            {% endfor %}
+        </ul>
+    </div>
+</div>

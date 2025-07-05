@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h3>Vehicle Service List</h3>
+    {% for car in object_list.all %}
+    <tr>
+        <th scope="row"> {{ forloop.counter }} </th>
+        <td> {{ car.plate }} </td>
+        <td> {{ car.brand }} </td>
+        <td> {{ car.year }} </td>
+        <td> {{ car.mileage }} </td>
+    {% endfor %}
+{% endblock %}

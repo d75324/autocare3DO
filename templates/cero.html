@@ -1,0 +1,58 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <br><br>
+    <h4>Z E R O</h4>
+    <table class="table table-hover">
+        <thead>
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">Patente</th>
+            <th scope="col">Marca</th>
+            <th scope="col">Año</th>
+            <th scope="col"></th>
+            <th scope="col"></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <th scope="row">1</th>
+            <td>Mark</td>
+            <td>Otto</td>
+            <td>@mdo</td>
+            <td scope="col"><div class="col-xl-4 themed-grid-col"> <span class="badge text-bg-primary">reno</span></div></td>
+          </tr>
+          <tr>
+            <th scope="row">2</th>
+            <td>Jacob</td>
+            <td>Thornton</td>
+            <td>@fat</td>
+            <td scope="col"><div class="col-xl-4 themed-grid-col"> <span class="badge text-bg-success">+ Detalles</span></div></td>
+            <td scope="col"><div class="col-xl-4 themed-grid-col"> <span class="badge text-bg-danger">Eliminar</span></div></td>
+          </tr>
+          <tr>
+            <th scope="row">3</th>
+            <td colspan="2">Larry the Bird</td>
+            <td>@twitter</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <hr>
+
+
+<!-- vehicle_form.html -->
+    <h2>Crear Vehículo</h2>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Guardar</button>
+    </form>
+</html>
+      
+      
+
+
+      
+      <hr>
+{% endblock %}

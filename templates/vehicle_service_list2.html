@@ -1,0 +1,34 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container">
+    <h2>Servicios para el Vehículo: {{ car.plate }}</h2>
+    <p>Marca: {{ car.brand }}</p>
+    <p>Modelo: {{ car.moddel }}</p>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Fecha</th>
+                <th scope="col">Kilometraje</th>
+                <th scope="col">Tipo de Servicio</th>
+                <th scope="col">Comentarios</th>
+                <th scope="col">Costo</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for service in services %}
+                <tr>
+                    <th scope="row">{{ forloop.counter }}</th>
+                    <td>{{ service.date }}</td>
+                    <td>{{ service.kilometers }}</td>
+                    <td>{{ service.service_type }}</td>
+                    <td>{{ service.coments }}</td>
+                    <td>{{ service.cost }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

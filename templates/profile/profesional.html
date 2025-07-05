@@ -1,0 +1,9 @@
+<h4>Profesional</h4>
+<h2>{{ user.first_name }} {{ user.last_name }} </h2>
+<!-- profile/profesional.html -->
+<ul>
+    {% for vehicle in vehicles %}
+        <li>{{ vehicle.brand }} - {{ vehicle.plate }}</li>
+    {% endfor %}
+</ul>
+

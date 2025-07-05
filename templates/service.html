@@ -1,0 +1,57 @@
+{% extends 'base.html' %}
+
+{% block content %}
+{% load crispy_forms_tags %}
+
+<div class="container">
+    <br>
+        <h2>Agregar Servicio</h2>
+        <p>Agregue un nuevo servicio realizado al vehículo</p>
+    <hr>
+    <br>
+    <div class="container my-3">
+        <div class="row">
+            <div class="col-md-10 mx-auto">
+                <div class="card border rounded-2 shadow p-3 mb-3">
+                    <div class="card-body">
+                        <form method="post">
+                            {% csrf_token %}
+                            <!-- Primera fila con todos los campos excepto Comentarios -->
+                            <div class="row">
+                                <div class="col-md-2">
+                                    {{ form.vehicle|as_crispy_field }}
+                                </div>
+                                <div class="col-md-2">
+                                    {{ form.date|as_crispy_field }}
+                                </div>
+                                <div class="col-md-2">
+                                    {{ form.kilometers|as_crispy_field }}
+                                </div>
+                                <div class="col-md-3">
+                                    {{ form.service_type|as_crispy_field }}
+                                </div>
+                                <div class="col-md-3">
+                                    {{ form.cost|as_crispy_field }}
+                                </div>
+                            </div>
+                            <!-- Segunda fila para el campo Comentarios -->
+                            <div class="row mt-3">
+                                <div class="col-md-12">
+                                    {{ form.coments|as_crispy_field }}
+                                </div>
+                            </div>
+                            <!-- Botones centrados -->
+                            <div class="row mt-3 justify-content-center">
+                                <div class="col-md-4 text-center">
+                                    <a href="{% url 'profile' %}" class="btn btn-secondary mx-2">Cancelar</a>
+                                    <button type="submit" class="btn btn-primary mx-2">Guardar Cambios</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+</div>
+
+{% endblock %}

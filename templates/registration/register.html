@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+{% block content %}
+
+{% load crispy_forms_tags %}
+<div class="container mt-3">
+    <h2>Registro de Usuario</h2>
+    <p>Ingrese la información de registro requerida. Seleccione al final si va a realizar un uso <strong>Particular</strong> o <strong>Profesional</strong> de la plataforma.</p>
+    <hr><br>
+    <form method="post" action="">
+        {% csrf_token %}
+
+        <div class="card mx-auto" style="width: 40rem;">
+            <div class="card-body">
+                <h5 class="card-title">Complete sus datos</h5>
+                    {{ form.non_field_errors }}
+
+                    {{ form.email|as_crispy_field }}
+                    {{ form.first_name|as_crispy_field }}
+                    {{ form.last_name|as_crispy_field }}
+                    {{ form.password1|as_crispy_field }}
+                    {{ form.password2|as_crispy_field }}
+                    {{ form.group|as_crispy_field }}
+
+
+                <button class="btn btn-sm btn-primary float-end" type="submit">Registrarse</button><br>
+            </div><br>
+        </div><br>
+
+    </form>
+</div>
+{% endblock %}

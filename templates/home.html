@@ -1,0 +1,98 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<!-- todo empieza aqui! -->
+<div class="container my-4">
+    <h1 class="text-center">Bienvenido a AutoCare</h1>
+    <p class="text-center lead">Gestione sus vehículos y los servicios realizados fácilmente.</p>
+
+    <div class="row my-5">
+        <div class="col-md-4">
+            <div class="card border-primary mb-4 h-100">
+                <div class="card-body text-center">
+                    <h5 class="card-title">Registre sus Vehículos</h5>
+                    <p class="card-text">Agregue nuevos vehículos a su cuenta y mantenga un registro actualizado de los servicios realizados y sus costos.</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card border-secondary mb-4 h-100">
+                <div class="card-body text-center">
+                    <h5 class="card-title">Su mecánico, su equipo</h5>
+                    <p class="card-text">Autorice a su mecánico a ingresar información de los trabajos realizados para facilitar el control.</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card border-success mb-4 h-100">
+                <div class="card-body text-center">
+                    <h5 class="card-title">Control de Costos mas efectivo</h5>
+                    <p class="card-text">Sepa en todo momento cuanto está gastando en su automóvil.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+<div class="container">
+    <footer class="bg-secondary text-white text-center py-3 rounded" style="background-color: #6c757d;">
+        <div class="row">
+            <div class="col">
+                <p class="mb-0">
+                    <strong>{{ total_vehicles }}</strong> Vehículos
+                </p>
+            </div>
+            <div class="col">
+                <p class="mb-0">
+                    <strong>{{ total_mechanics }}</strong> Mecánicos
+                </p>
+            </div>
+            <div class="col">
+                <p class="mb-0">
+                    <strong>{{ total_services }}</strong> Servicios
+                </p>
+            </div>
+        </div>
+    </footer>
+</div>
+
+
+<br><hr>
+<center>
+    <h4>Llevar un control efectivo de servicios y costos asociados a un auto es fundamental por varias razones</h4>
+</center>
+
+<hr>
+    <div class="container my-4">
+        <div class="row justify-content-center">
+            <div class="col-md-10">
+                <div class="card border-light shadow-sm" style="border-color: #90ee90;">
+                    <div class="card-body">
+                        <h5 class="card-title"></h5>
+                            <h6>1. Mantenimiento Preventivo:</h6>
+                                <p class="card-text">Llevar un registro detallado de los servicios permite programar mantenimientos preventivos de manera adecuada, evitando problemas mayores y costosos a largo plazo. Por ejemplo, cambiar el aceite regularmente puede evitar daños en el motor.</p>
+                            <h6>2. Valor de Reventa:</h6>
+                                <p class="card-text">Un historial de mantenimiento bien documentado puede aumentar significativamente el valor de reventa de un vehículo. Los compradores potenciales tienden a confiar más en vehículos que tienen un registro claro de los servicios realizados, lo que sugiere que han sido bien cuidados.</p>
+                            <h6>3. Seguridad:</h6>
+                                <p class="card-text">El mantenimiento regular de partes cruciales del vehículo, como frenos, neumáticos y sistemas de seguridad, garantiza que el auto esté en condiciones óptimas de funcionamiento, reduciendo el riesgo de accidentes.</p>
+                            <h6>4. Control de Costos:</h6>
+                                <p class="card-text">Llevar un registro de los costos de los servicios permite a los propietarios identificar patrones de gastos y planificar el presupuesto de mantenimiento. Esto ayuda a evitar sorpresas financieras desagradables.</p>
+                            <h6>5. Cumplimiento de Garantías:</h6>
+                                <p class="card-text">Muchas garantías de vehículos requieren que los servicios se realicen de acuerdo con un cronograma específico. Tener un registro de los servicios puede ayudar a asegurar que se cumplan las condiciones de la garantía, evitando la invalidación de la misma.</p>
+                            <h6>6. Diagnóstico de Problemas:</h6>
+                                <p class="card-text">Un historial de mantenimiento detallado puede ayudar a los mecánicos a diagnosticar problemas más rápidamente. Saber qué servicios se han realizado y cuándo puede proporcionar pistas vitales para identificar y solucionar problemas del vehículo.</p>
+                            <h6>7. Satisfacción del Propietario:</h6>
+                                <p class="card-text">Finalmente, saber que tu vehículo está bien mantenido y en buen estado proporciona tranquilidad y satisfacción, permitiéndote disfrutar de tu auto sin preocupaciones constantes sobre posibles fallas mecánicas -item35-.</p>
+                            <h5>
+                                Llevar un control adecuado no solo extiende la vida útil del vehículo, sino que también garantiza que se conduzca de manera segura y eficiente.
+                            </h5>
+                    </div>
+            </div>
+        </div>
+    </div>
+    <div class="row my-5 justify-content-center">
+        <div class="col-md-10">
+            <a href="#" class="btn btn-primary btn-lg btn-block">Ingrese o Regístrese</a>
+        </div>
+    </div>
+</div>
+{% endblock %}

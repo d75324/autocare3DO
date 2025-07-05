@@ -1,0 +1,34 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="container my-3">
+    <div class="row">
+        <div class="col-md-10 mx-auto">
+             <div class="card border rounded-2 shadow p-3 mb-3">
+                <div class="card-body">
+
+                    <p> <h4>Comming up...</h4>
+                        Pendientes<br>
+                        - Agregar opción Asignar/Desasignar para que un usuario pueda desasignar un auto si se pelea con el macánico.<br>
+                        - Agregar opción de cambiar la contraseña.<br>
+                        - En el listado de autos asignados, el dueño tiene que aparecer por su nombre y apellido.</p>
+                    <hr>
+                    <p> <h4>Version 0</h4>
+                        Completado<br>
+                        - hoja Precios mejorada.<br>
+                        - home mejorado.<br>
+                        - Las matrículas aparecen en mayúsculas, aunque el usuario las escriba en minúsculas.<br>
+                        - Cuando se carga un vehículo por parte de un Particular, el mecánico se debe poder filtrar por nombre, no por nombre de usuario.<br>
+                        - El Usuario puede eliminar autos registrados en su cuenta y a su nombre (por ejemplo si vendo el auto)<br>
+                        - Contar la cantidad de vehiculos que tiene registrados el usuario, para usar en la función de deshabilitación del botón de Agregar Vehiculos.<br>
+                        - Agregar en Detalles, el total del costo del auto desde que se creó el registro.<br>
+                        - Ya filtra los mecánicos (y solo los mecánicos registrados) cuando agrego un nuevo vehiculo. <br>
+                        - Deshabilitar botón vehiculos cuando el usuario Particular tiene registrados los 3 vehiculos que le permite la aplicación.<br>
+                        - Cuando cargo un nuevo servicio en un auto, tengo que tomar el kilometraje que ya tiene el auto y solamente darle la opción de aumentar el número que se ingresa.<br>
+                    </p>
+                </div>
+             </div>
+        </div>
+
+    </div>
+</div>
+{% endblock %}

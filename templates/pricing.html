@@ -1,0 +1,64 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="pricing-header p-3 pb-md-4 mx-auto text-center">
+  <h1 class="display-4 fw-normal text-body-emphasis">Precios</h1>
+  <p class="fs-5 text-body-secondary">AutoCare es gratuito y registrandote ahora lo podrás usar de manera gratuita para siempre. <br> Algún día, lo empezaremos a cobrar pero solamente a los usuarios que se registren a partir de ese momento.</p>
+</div>
+</header>
+
+<main>
+<div class="row row-cols-1 row-cols-md-3 mb-3 text-center">
+  <div class="col">
+    <div class="card mb-4 rounded-3 shadow-sm">
+      <div class="card-header py-3">
+        <h4 class="my-0 fw-normal">Particular</h4>
+      </div>
+      <div class="card-body">
+        <h1 class="card-title pricing-card-title">$Ur 0<small class="text-body-secondary fw-light">/mes</small></h1>
+        <ul class="list-unstyled mt-3 mb-4">
+          <li>Registros para hasta 3 autos</li>
+          <li></li>
+          <li>Soporte por Correo Electrónico</li>
+          <li></li>
+        </ul>
+        <button type="button" class="w-100 btn btn-lg btn-outline-primary">Registrese Gratis!</button>
+      </div>
+    </div>
+  </div>
+  <div class="col">
+    <div class="card mb-4 rounded-3 shadow-sm">
+      <div class="card-header py-3">
+        <h4 class="my-0 fw-normal">Profesional</h4>
+      </div>
+      <div class="card-body">
+        <h1 class="card-title pricing-card-title">$Ur 5<small class="text-body-secondary fw-light">/mes</small></h1>
+        <ul class="list-unstyled mt-3 mb-4">
+          <li>Autos Ilimitados Incluidos</li>
+          <li>Geolocalización para nuevos usuarios (comming soon)</li>
+          <li>Soporte Email</li>
+          <li>Soporte Telefónico</li>
+        </ul>
+        <button type="button" class="w-100 btn btn-lg btn-primary">Get started</button>
+      </div>
+    </div>
+  </div>
+  <div class="col">
+    <div class="card mb-4 rounded-3 shadow-sm border-primary">
+      <div class="card-header py-3 text-bg-primary border-primary">
+        <h4 class="my-0 fw-normal">Corporativo</h4>
+      </div>
+      <div class="card-body">
+        <h1 class="card-title pricing-card-title">$Ur 290<small class="text-body-secondary fw-light">/mes</small></h1>
+        <ul class="list-unstyled mt-3 mb-4">
+          <li>30 users included</li>
+          <li>15 GB of storage</li>
+          <li>Phone and email support</li>
+          <li>Help center access</li>
+        </ul>
+        <button type="button" class="w-100 btn btn-lg btn-primary">Contáctenos</button>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

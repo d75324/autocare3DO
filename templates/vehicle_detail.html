@@ -1,0 +1,66 @@
+{% extends 'base.html' %}
+
+    {% block content %}
+
+<div class="container">
+        <br>
+        <h2>Lista de Servicios</h2>
+        <p>Encuentre información sobre los servicios realizados al vehículo</p>
+    <hr>
+    <br>
+    <div class="container my-3">
+        <div class="row">
+            <div class="col-md-10 mx-auto">
+                 <div class="card border rounded-2 shadow p-3 mb-3">
+                    <div class="card-body">
+                        <div class="container">
+                            <h4>Servicios realizados al vehículo:<strong> {{ vehicle.plate }} </strong></h4>
+                        </div>
+                
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>Patente</th>
+                                    <th>Fecha Servicio</th>
+                                    <th>Kilometraje</th>
+                                    <th>Costo del Servicio</th>
+                                    <th>Tipo de Servicio</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            {% for service in vehicle.service_set.all %}
+                                <tr>
+                                    <td>{{ vehicle.plate }}</td>
+                                    <td>{{ service.date }}</td>
+                                    <td>{{ service.kilometers }}</td>
+                                    <td>${{ service.cost }}</td>
+                                    <td>{{ service.service_type }}</td>
+                                </tr>
+                                <tr>
+                                    <td colspan="5">{{ service.coments }}</td>
+                                </tr>
+                                {% empty %}
+                                <tr>
+                                    No hay servicios registrados
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    <br><br><hr>
+                        <a href="{% url 'add_service' vehicle.id %}" class="badge text-bg-primary text-decoration-none">
+                            + Servicio
+                        </a>
+
+    
+
+                    </div>
+                 </div>
+            </div>
+    
+        </div>
+    </div>
+</div>
+
+
+
+    {% endblock %}

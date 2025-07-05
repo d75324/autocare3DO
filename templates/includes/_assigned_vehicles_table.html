@@ -1,0 +1,50 @@
+<table class="table table-hover">
+    <thead>
+        <tr>
+        <th scope="col">#</th>
+        <th scope="col">Propietario</th>
+        <th scope="col">Patente</th>
+        <th scope="col">Marca/Año</th>
+        <th scope="col">Gastos</th>
+        <th scope="col">Kilometros</th>
+        <th scope="col"></th>
+        <th scope="col"></th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for vehicle in assigned_vehicles %}
+            <tr>
+                <th scope="row"> {{ forloop.counter }} </th>
+                <td> {{ vehicle.owner.first_name }} {{ vehicle.owner.last_name }}</td>
+                <td> {{ vehicle.plate }} </td>
+                <td> {{ vehicle.brand }} / {{ vehicle.year }} </td>
+                <td> ${{ vehicle.total_service_cost }} </td>
+                <td> {{ vehicle.mileage }} </td>
+                <td scope="col">
+                    <div class="col-xl-4 themed-grid-col">
+                        <a href="{% url 'vehicle_detail' vehicle.id %}" class="badge text-bg-success text-decoration-none">
+                            Detalles
+                        </a>
+                    </div>
+                </td>
+                <td scope="col">
+                    <div class="col-xl-4 themed-grid-col">
+                        <a href="{% url 'add_service' vehicle.id %}" class="badge text-bg-primary text-decoration-none">
+                            + Servicio
+                        </a>
+                    </div>
+                </td>
+                <!--
+                El mecánico NO va a poder eliminar vehículos que le hayan sido asignados, salvo los propios
+                <td scope="col">
+                    <div class="col-xl-4 themed-grid-col">
+                        <a href="{% url 'vehicle_delete' vehicle.id %}" class="badge text-bg-danger text-decoration-none">
+                            Eliminar
+                        </a>
+                    </div>
+                </td>
+                -->                
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>
