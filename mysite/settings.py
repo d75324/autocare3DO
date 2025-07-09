@@ -2,7 +2,7 @@ import os
 from pathlib import Path
 from dotenv import load_dotenv
 
-from decouple import config
+from decouple import config, Config, AutoConfig
 from dj_database_url import parse as db_url
 
 # Carga el archivo .env desde la raíz del proyecto
@@ -17,7 +17,7 @@ SECRET_KEY = 'django-insecure-a3e@zb8242&o$mib-4wd3^m!ne4f470vzimd*t@5-0^gq^z25k
 # traemos DEBUG: True en desarrollo, False en producción (según el .env)
 DEBUG = os.getenv('DEBUG', 'False') == 'True'  # Default seguro en False
 
-ALLOWED_HOSTS = ['167.99.149.87', 'localhost', 'cuidamostuauto.com', 'www.cuidamostuauto.com']
+ALLOWED_HOSTS = ['167.99.149.87', 'localhost', 'cuidamostuauto.com', 'www.cuidamostuauto.com', '127.0.0.1']
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -122,10 +122,14 @@ USE_I18N = True
 USE_TZ = True
 
 
-# Static files (CSS, JavaScript, Images)
-# https://docs.djangoproject.com/en/5.1/howto/static-files/
+# Donde colocar la carpeta static? Si es una única aplicación, puede ir
+# en la carpeta de la aplicación (donde está el archivo manage.py). Sinó, en la carpeta del proyecto (donde están las aplicaciones y mysite).
 
 STATIC_URL = '/static/'
+
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, 'static'),
+]
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
@@ -136,4 +140,3 @@ MEDIA_URL = '/media/'
 
 LOGIN_REDIRECT_URL = 'profile'
 LOGOUT_REDIRECT_URL = 'home'
-

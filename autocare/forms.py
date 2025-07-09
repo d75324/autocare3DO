@@ -11,6 +11,7 @@ class LoginForm(AuthenticationForm):
         if not user.is_active:
             raise forms.ValidationError('Esta cuenta está inactiva.', code='inactive')
 
+
 class RegisterForm(UserCreationForm):
     email = forms.EmailField(label='Correo Electrónico')
     first_name = forms.CharField(label='Nombre')
@@ -56,6 +57,7 @@ class VehicleForm(forms.ModelForm):
         super(VehicleForm, self).__init__(*args, **kwargs)
         self.fields['car_mechanic'].queryset = User.objects.filter(groups__name='Mecanicos')
 
+
 # Formulario para editar la información de los usuarios. Como estoy usando
 # dos tablas, una parte va a impactar en User y otra parte en Profile
 class UserForm(forms.ModelForm):
@@ -63,10 +65,12 @@ class UserForm(forms.ModelForm):
         model = User
         fields = ['first_name', 'last_name']
 
+
 class ProfileForm(forms.ModelForm):
     class Meta:
         model = Profile
         fields = ['image', 'address', 'location', 'telephone']
+
 
 # formulario para carga de vehiculos
 class VehicleForm(forms.ModelForm):
@@ -84,8 +88,8 @@ class VehicleForm(forms.ModelForm):
         except Group.DoesNotExist:
             self.fields['car_mechanic'].queryset = User.objects.none()
 
-# formulario para agregar vehiculos. Aca necesito que por default la placa sea la del vehiculo en el cual doy click...
 
+# formulario para agregar vehiculos. Aca necesito que por default la placa sea la del vehiculo en el cual doy click...
 class ServiceForm(forms.ModelForm):
     class Meta:
         model = Service

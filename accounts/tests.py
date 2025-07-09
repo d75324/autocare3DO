@@ -1,3 +1,4 @@
 from django.test import TestCase
 
-# Create your tests here.
+# Testear que los usuarios se registren usando su email en lugar de su username.
+

@@ -145,5 +145,5 @@ mysite_box/staticfiles/
 media/
 
 # y también static, pero solo por que se me canta...
-static/
+# static/
 
