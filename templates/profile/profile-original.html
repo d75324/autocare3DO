@@ -1,0 +1,144 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<hr>
+<div class="container my-3">
+  <div class="row">
+    <div class="col-md-4">
+        <!-- car datos del usuario, personal o profesional-->
+          <div class="card border rounded-2 shadow p-3 mb-3">
+            <div class="card-body">
+              <!--card body...-->
+              <img class="img-thumbnail rounded-circle mb-3" src=" {{ user.profile.image.url }} " alt="{{ user.username }}" style="width: 100px;">
+              <h3> {{ user.first_name }} {{ user.last_name }} </h3>
+              <h5> {{ group_name }} </h5>
+              <hr>
+              <p><strong>Correo Electrónico: </strong> {{ user.email }} </p>
+              <p><strong>Teléfono: </strong> {{ user.profile.telephone }} </p>
+              <p><strong>Domicilio: </strong> {{ user.profile.address }} </p>
+              <p><strong>Ciudad: </strong> {{ user.profile.location }} </p>
+              <hr>
+                  <div class="d-flex justify-content-center my-3">
+                      <!-- Button trigger modal -->
+                      <button type="button" class="btn btn-outline-secondary mx-2" data-bs-toggle="modal" data-bs-target="#editProfileModal">
+                        Editar Perfil
+                      </button>
+                      {% if cantidad_vehiculos < 3 %}
+                      <a class="btn btn-danger mx-2" href="{% url 'vehicle_list' %}">Agregar Vehículo</a>
+                      {% else %}
+                      <a class="btn btn-danger mx-2 disabled" href="#">Agregar Vehículo</a>
+                      {% endif %}
+                  </div>
+          </div>
+          </div>
+    </div>
+      <div class="col-md-8">
+        <div class="card border rounded-2 shadow p-3 mb-3">
+          <div class="card-body">
+            <h3>Tus vehículos registrados</h3>
+            <p>La cantidad total de vehículos registrados es:
+              <strong> {{ cantidad_vehiculos }} </strong></p>
+              <hr>
+              <br>
+              {% include 'includes/_vehicles_table.html' %}
+          </div>
+        </div>
+      </div>
+      {% if user.profile.is_mechanic %}
+      <div>
+        <div class="card border rounded-2 shadow p-3 mb-3">
+          <div class="card-body">
+            {% if assigned_vehicles %}
+            <h3>Vehículos que te han sido asignados:</h3>
+            <p>Total de vehículos asignados es:
+              <strong> {{ assigned_vehicles|length }} </strong></p>
+              <hr>
+              <br>
+              {% include 'includes/_assigned_vehicles_table.html' %}
+            {% else %}
+            <div class="container">
+              <center>
+                  <h3>Ups {{ user.first_name }}, parece que todavía no tienes clientes aquí</h3><br>
+                  <h6>Invítalos a que se registren en: www.autocare.com.uy</h6><br>
+                  <a class="btn btn-primary" href="#">Invitar</a>
+              </center>
+          </div>
+         
+            {% endif %}
+          </div>
+        </div>
+      </div>
+      {% endif %}
+  </div>
+</div>
+
+
+<!-- Vertically centered modal: modal para editar perfiles-->
+<div class="modal fade" id="editProfileModal" tabindex="-1" aria-labelledby="editProfileModalLabel" aria-hidden="true">
+  
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-dialog">
+    <div class="modal-content">
+
+      <div class="modal-header">
+          <h3 class="modal-title" id="editProfileModalLabel">Editar Perfil</h3>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+
+        <form action="" method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <div class="modal-body">
+          <div class="d-flex">
+            <img class="img-thumbnail rounded-circle mb-3 mx-auto" src=" {{ user.profile.image.url }} " alt="{{ user.username }}" style="width: 100px;">
+          </div>
+
+          <div class="mb-3">
+            <label for="image">Imagen de Perfil</label>
+            <input class="form-control" type="file" name="image" id="image">
+          </div>
+
+          <div class="d-flex">
+            <div class="mb-3 mr-2">
+              <label for="first_name">Nombre</label>
+              <input type="text" class="form-control" name="first_name" value="{{ user.first_name }}">
+            </div>
+            <div class="mb-3">
+              <label for="last_name">Apeyyido</label>
+              <input type="text" class="form-control" name="last_name" value="{{ user.last_name }}">
+            </div>
+          </div>
+          <div class="d-flex">
+            <div class="mb-3 mr-2">
+              <label for="address">Dirección</label>
+              <input type="text" class="form-control" name="address" value="{{ user.profile.address }}">
+            </div>
+            <div class="mb-3">
+              <label for="location">Localidad</label>
+              <input type="text" class="form-control" name="location" value="{{ user.profile.location }}">
+            </div>
+        </div>
+
+          <div class="d-flex">
+            <div class="mb-3 mr-2">
+              <label for="telephone">Teléfono</label>
+              <input type="text" class="form-control" name="telephone" value="{{ user.profile.telephone }}">
+            </div>
+            <div class="mb-3">
+              <label for="email">Email</label>
+              <input type="text" class="form-control" name="email" value="{{ user.email }}" disabled>
+            </div>
+          </div>
+      </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+          <button type="submit" class="btn btn-primary">Guardar Cambios</button>
+        </div>
+      </form>
+
+    </div>
+    </div>
+  </div>
+
+
+</div>
+{% endblock %}

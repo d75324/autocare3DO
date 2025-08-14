@@ -1,6 +1,5 @@
 {% extends 'base.html' %}
-
-    {% block content %}
+{% block content %}
 
 <div class="container">
         <br>
@@ -47,20 +46,17 @@
                             </tbody>
                         </table>
                     <br><br><hr>
-                        <a href="{% url 'add_service' vehicle.id %}" class="badge text-bg-primary text-decoration-none">
+                        <a href="{% url 'add_service' vehicle.id %}" class="badge text-bg-primary text-decoration-none p-2">
                             + Servicio
                         </a>
-
-    
-
+                        <a href="#" class="badge text-bg-secondary text-decoration-none p-2">
+                            + Descargar CSV
+                        </a>
                     </div>
                  </div>
             </div>
-    
         </div>
     </div>
 </div>
 
-
-
-    {% endblock %}
+{% endblock %}

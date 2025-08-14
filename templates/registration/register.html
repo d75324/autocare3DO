@@ -1,31 +1,653 @@
 {% extends 'base.html' %}
-{% block content %}
-
 {% load crispy_forms_tags %}
-<div class="container mt-3">
-    <h2>Registro de Usuario</h2>
-    <p>Ingrese la información de registro requerida. Seleccione al final si va a realizar un uso <strong>Particular</strong> o <strong>Profesional</strong> de la plataforma.</p>
-    <hr><br>
-    <form method="post" action="">
-        {% csrf_token %}
 
-        <div class="card mx-auto" style="width: 40rem;">
-            <div class="card-body">
-                <h5 class="card-title">Complete sus datos</h5>
-                    {{ form.non_field_errors }}
+{% block title %}Registro - AutoCare{% endblock %}
 
-                    {{ form.email|as_crispy_field }}
-                    {{ form.first_name|as_crispy_field }}
-                    {{ form.last_name|as_crispy_field }}
-                    {{ form.password1|as_crispy_field }}
-                    {{ form.password2|as_crispy_field }}
-                    {{ form.group|as_crispy_field }}
+{% block extra_css %}
+<style>
+.register-hero {
+    background: linear-gradient(135deg, #10B981 0%, #059669 100%);
+    position: relative;
+    overflow: hidden;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+}
 
+.register-hero::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grid" width="10" height="10" patternUnits="userSpaceOnUse"><path d="M 10 0 L 0 0 0 10" fill="none" stroke="rgba(255,255,255,0.1)" stroke-width="0.5"/></pattern></defs><rect width="100" height="100" fill="url(%23grid)"/></svg>');
+    opacity: 0.3;
+}
 
-                <button class="btn btn-sm btn-primary float-end" type="submit">Registrarse</button><br>
-            </div><br>
-        </div><br>
+.register-hero::after {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -20%;
+    width: 80%;
+    height: 200%;
+    background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+    border-radius: 50%;
+    animation: float 20s ease-in-out infinite;
+}
 
-    </form>
-</div>
+@keyframes float {
+    0%, 100% { transform: translateY(0px) rotate(0deg); }
+    50% { transform: translateY(-20px) rotate(180deg); }
+}
+
+.register-card {
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(20px);
+    border-radius: 24px;
+    padding: 3rem;
+    box-shadow: 0 25px 50px rgba(0, 0, 0, 0.15);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    position: relative;
+    z-index: 2;
+    max-width: 600px;
+    width: 100%;
+}
+
+.register-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, #10B981, #059669, #10B981);
+    border-radius: 24px 24px 0 0;
+}
+
+.form-floating-modern {
+    position: relative;
+    margin-bottom: 1.5rem;
+}
+
+.form-floating-modern input,
+.form-floating-modern select {
+    width: 100%;
+    padding: 16px 20px 16px 50px;
+    border: 2px solid #E5E7EB;
+    border-radius: 12px;
+    font-size: 1rem;
+    background: white;
+    transition: all 0.3s ease;
+    outline: none;
+}
+
+.form-floating-modern input:focus,
+.form-floating-modern select:focus {
+    border-color: #10B981;
+    box-shadow: 0 0 0 4px rgba(16, 185, 129, 0.1);
+    transform: translateY(-1px);
+}
+
+.form-floating-modern input:focus + label,
+.form-floating-modern input:not(:placeholder-shown) + label,
+.form-floating-modern select:focus + label,
+.form-floating-modern select:not([value=""]) + label {
+    transform: translateY(-35px) translateX(-10px) scale(0.85);
+    color: #10B981;
+    font-weight: 600;
+}
+
+.form-floating-modern label {
+    position: absolute;
+    top: 16px;
+    left: 50px;
+    color: #6B7280;
+    font-size: 1rem;
+    pointer-events: none;
+    transition: all 0.3s ease;
+    background: white;
+    padding: 0 8px;
+    border-radius: 4px;
+}
+
+.form-floating-modern .form-icon {
+    position: absolute;
+    left: 16px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #9CA3AF;
+    font-size: 1.1rem;
+    transition: all 0.3s ease;
+    z-index: 2;
+}
+
+.form-floating-modern input:focus ~ .form-icon,
+.form-floating-modern select:focus ~ .form-icon {
+    color: #10B981;
+}
+
+.password-toggle {
+    position: absolute;
+    right: 16px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    color: #9CA3AF;
+    cursor: pointer;
+    font-size: 1.1rem;
+    padding: 8px;
+    border-radius: 6px;
+    transition: all 0.3s ease;
+}
+
+.password-toggle:hover {
+    color: #10B981;
+    background: rgba(16, 185, 129, 0.1);
+}
+
+.btn-modern {
+    background: linear-gradient(135deg, #10B981 0%, #059669 100%);
+    border: none;
+    border-radius: 12px;
+    padding: 16px 32px;
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: white;
+    width: 100%;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+    text-transform: none;
+}
+
+.btn-modern::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+    transition: left 0.5s ease;
+}
+
+.btn-modern:hover::before {
+    left: 100%;
+}
+
+.btn-modern:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 25px rgba(16, 185, 129, 0.3);
+}
+
+.error-message {
+    color: #DC2626;
+    font-size: 0.875rem;
+    margin-top: 0.5rem;
+    padding: 8px 12px;
+    background: #FEE2E2;
+    border-radius: 8px;
+    border-left: 3px solid #DC2626;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.checkbox-modern {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    margin: 1.5rem 0;
+    padding: 16px;
+    background: rgba(16, 185, 129, 0.05);
+    border-radius: 12px;
+    border: 1px solid rgba(16, 185, 129, 0.2);
+}
+
+.checkbox-modern input[type="checkbox"] {
+    width: 18px;
+    height: 18px;
+    accent-color: #10B981;
+    cursor: pointer;
+    margin-top: 2px;
+}
+
+.checkbox-modern label {
+    font-size: 0.9rem;
+    color: #6B7280;
+    cursor: pointer;
+    margin: 0;
+    line-height: 1.4;
+}
+
+.user-type-info {
+    background: rgba(16, 185, 129, 0.05);
+    border-radius: 12px;
+    padding: 1rem;
+    margin-top: 0.5rem;
+    border-left: 4px solid #10B981;
+}
+
+.user-type-info small {
+    color: #6B7280;
+    font-size: 0.875rem;
+    line-height: 1.4;
+}
+
+.features-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 1rem;
+    margin-top: 1.5rem;
+}
+
+.feature-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.9rem;
+    color: #6B7280;
+    padding: 8px 12px;
+    background: rgba(16, 185, 129, 0.05);
+    border-radius: 8px;
+    border-left: 3px solid #10B981;
+}
+
+.feature-item i {
+    color: #10B981;
+    font-size: 0.8rem;
+}
+
+@media (max-width: 768px) {
+    .register-card {
+        margin: 1rem;
+        padding: 2rem;
+    }
+    
+    .features-grid {
+        grid-template-columns: 1fr;
+        gap: 0.5rem;
+    }
+    
+    .form-floating-modern {
+        margin-bottom: 1rem;
+    }
+}
+</style>
+{% endblock %}
+
+{% block content %}
+<section class="register-hero">
+    <div class="container">
+        <div class="row justify-content-center align-items-center min-vh-100">
+            <div class="col-lg-7 col-md-9">
+                <div class="register-card animate-on-scroll">
+                    <!-- Header -->
+                    <div class="text-center mb-4">
+                        <div class="mb-3">
+                            <i class="fas fa-user-plus" style="font-size: 2.5rem; color: #10B981;"></i>
+                        </div>
+                        <h1 style="font-size: 2rem; font-weight: 700; color: #1F2937; margin-bottom: 0.5rem;">
+                            Crear Nueva Cuenta
+                        </h1>
+                        <p style="color: #6B7280; font-size: 1rem; margin: 0;">
+                            Únete a AutoCare y comienza a gestionar tus vehículos de manera inteligente.
+                        </p>
+                    </div>
+
+                    <!-- Instructions -->
+                    <div class="user-type-info mb-4">
+                        <p style="margin: 0; color: #374151; font-weight: 500;">
+                            <i class="fas fa-info-circle" style="color: #10B981; margin-right: 8px;"></i>
+                            Complete la información solicitada. Seleccione al final si va a realizar un uso <strong>Particular</strong> o <strong>Profesional</strong> de la plataforma.
+                        </p>
+                    </div>
+
+                    <!-- Error Messages -->
+                    {% if form.errors or form.non_field_errors %}
+                        <div class="error-message mb-3">
+                            <i class="fas fa-exclamation-triangle"></i>
+                            <div>
+                                {% if form.non_field_errors %}
+                                    {% for error in form.non_field_errors %}
+                                        {{ error }}
+                                    {% endfor %}
+                                {% else %}
+                                    Por favor corrija los errores en el formulario.
+                                {% endif %}
+                            </div>
+                        </div>
+                    {% endif %}
+
+                    <!-- Registration Form -->
+                    <form method="post" action="" novalidate>
+                        {% csrf_token %}
+                        
+                        <!-- Email Field -->
+                        <div class="form-floating-modern">
+                            <input 
+                                type="email"
+                                id="{{ form.email.id_for_label }}"
+                                name="{{ form.email.name }}"
+                                value="{{ form.email.value|default:'' }}"
+                                placeholder=" "
+                                required
+                                class="{% if form.email.errors %}border-danger{% endif %}"
+                            >
+                            <label for="{{ form.email.id_for_label }}">Correo Electrónico</label>
+                            <i class="fas fa-envelope form-icon"></i>
+                            {% if form.email.errors %}
+                                <div class="error-message">
+                                    <i class="fas fa-exclamation-circle"></i>
+                                    <span>{{ form.email.errors.0 }}</span>
+                                </div>
+                            {% endif %}
+                        </div>
+
+                        <!-- Name Fields Row -->
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-floating-modern">
+                                    <input 
+                                        type="text"
+                                        id="{{ form.first_name.id_for_label }}"
+                                        name="{{ form.first_name.name }}"
+                                        value="{{ form.first_name.value|default:'' }}"
+                                        placeholder=" "
+                                        required
+                                        class="{% if form.first_name.errors %}border-danger{% endif %}"
+                                    >
+                                    <label for="{{ form.first_name.id_for_label }}">Nombre</label>
+                                    <i class="fas fa-user form-icon"></i>
+                                    {% if form.first_name.errors %}
+                                        <div class="error-message">
+                                            <i class="fas fa-exclamation-circle"></i>
+                                            <span>{{ form.first_name.errors.0 }}</span>
+                                        </div>
+                                    {% endif %}
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-floating-modern">
+                                    <input 
+                                        type="text"
+                                        id="{{ form.last_name.id_for_label }}"
+                                        name="{{ form.last_name.name }}"
+                                        value="{{ form.last_name.value|default:'' }}"
+                                        placeholder=" "
+                                        required
+                                        class="{% if form.last_name.errors %}border-danger{% endif %}"
+                                    >
+                                    <label for="{{ form.last_name.id_for_label }}">Apellido</label>
+                                    <i class="fas fa-user form-icon"></i>
+                                    {% if form.last_name.errors %}
+                                        <div class="error-message">
+                                            <i class="fas fa-exclamation-circle"></i>
+                                            <span>{{ form.last_name.errors.0 }}</span>
+                                        </div>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Password Fields Row -->
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-floating-modern">
+                                    <input 
+                                        type="password"
+                                        id="{{ form.password1.id_for_label }}"
+                                        name="{{ form.password1.name }}"
+                                        placeholder=" "
+                                        required
+                                        class="{% if form.password1.errors %}border-danger{% endif %}"
+                                    >
+                                    <label for="{{ form.password1.id_for_label }}">Contraseña</label>
+                                    <i class="fas fa-lock form-icon"></i>
+                                    <button type="button" class="password-toggle" data-target="{{ form.password1.id_for_label }}">
+                                        <i class="fas fa-eye"></i>
+                                    </button>
+                                    {% if form.password1.errors %}
+                                        <div class="error-message">
+                                            <i class="fas fa-exclamation-circle"></i>
+                                            <span>{{ form.password1.errors.0 }}</span>
+                                        </div>
+                                    {% endif %}
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-floating-modern">
+                                    <input 
+                                        type="password"
+                                        id="{{ form.password2.id_for_label }}"
+                                        name="{{ form.password2.name }}"
+                                        placeholder=" "
+                                        required
+                                        class="{% if form.password2.errors %}border-danger{% endif %}"
+                                    >
+                                    <label for="{{ form.password2.id_for_label }}">Confirmar contraseña</label>
+                                    <i class="fas fa-lock form-icon"></i>
+                                    <button type="button" class="password-toggle" data-target="{{ form.password2.id_for_label }}">
+                                        <i class="fas fa-eye"></i>
+                                    </button>
+                                    {% if form.password2.errors %}
+                                        <div class="error-message">
+                                            <i class="fas fa-exclamation-circle"></i>
+                                            <span>{{ form.password2.errors.0 }}</span>
+                                        </div>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- User Type Selection -->
+                        <div class="form-floating-modern">
+                            <select 
+                                id="{{ form.group.id_for_label }}"
+                                name="{{ form.group.name }}"
+                                required
+                                class="{% if form.group.errors %}border-danger{% endif %}"
+                            >
+                                <option value="">Seleccione el tipo de uso</option>
+                                {% for value, label in form.group.field.choices %}
+                                    {% if value %}
+                                        <option value="{{ value }}" {% if form.group.value == value %}selected{% endif %}>
+                                            {{ label }}
+                                        </option>
+                                    {% endif %}
+                                {% endfor %}
+                            </select>
+                            <label for="{{ form.group.id_for_label }}">Tipo de Usuario</label>
+                            <i class="fas fa-users form-icon"></i>
+                            {% if form.group.errors %}
+                                <div class="error-message">
+                                    <i class="fas fa-exclamation-circle"></i>
+                                    <span>{{ form.group.errors.0 }}</span>
+                                </div>
+                            {% endif %}
+                        </div>
+
+                        <!-- User Type Info -->
+                        <div class="user-type-info">
+                            <small>
+                                <strong style="color: #10B981;">Uso Particular:</strong> Para uso personal de sus vehículos y control de servicios.<br>
+                                <strong style="color: #10B981;">Uso Profesional:</strong> Para mecánicos que brindan servicios a múltiples clientes.
+                            </small>
+                        </div>
+
+                        <!-- Terms and Conditions -->
+                        <div class="checkbox-modern">
+                            <input type="checkbox" id="acceptTerms" required>
+                            <label for="acceptTerms">
+                                Acepto los <a href="#" style="color: #10B981; text-decoration: none;">Términos de Servicio</a> y la <a href="#" style="color: #10B981; text-decoration: none;">Política de Privacidad</a> de AutoCare
+                            </label>
+                        </div>
+
+                        <!-- Submit Button -->
+                        <button type="submit" class="btn-modern mb-4" id="registerBtn">
+                            <i class="fas fa-user-plus me-2"></i>
+                            <span id="registerBtnText">Crear Cuenta</span>
+                        </button>
+                    </form>
+
+                    <!-- Login Link -->
+                    <div class="text-center">
+                        <p style="color: #6B7280; margin-bottom: 1rem;">
+                            ¿Ya tienes una cuenta?
+                        </p>
+                        <a href="{% url 'login' %}" class="btn btn-outline-success rounded-3 px-4 py-2">
+                            <i class="fas fa-sign-in-alt me-2"></i>
+                            Iniciar Sesión
+                        </a>
+                    </div>
+
+                    <!-- Features -->
+                    <div style="margin-top: 2rem; padding: 1.5rem; background: rgba(16, 185, 129, 0.05); border-radius: 16px; border: 1px solid rgba(16, 185, 129, 0.1);">
+                        <h6 style="color: #1F2937; margin-bottom: 1rem; font-weight: 600; text-align: center;">
+                            <i class="fas fa-gift" style="color: #10B981; margin-right: 8px;"></i>
+                            Por qué elegir AutoCare?
+                        </h6>
+                        <div class="features-grid">
+                            <div class="feature-item">
+                                <i class="fas fa-check"></i>
+                                <span>Gestión inteligente</span>
+                            </div>
+                            <div class="feature-item">
+                                <i class="fas fa-check"></i>
+                                <span>Control de costos</span>
+                            </div>
+                            <div class="feature-item">
+                                <i class="fas fa-check"></i>
+                                <span>Historial completo</span>
+                            </div>
+                            <div class="feature-item">
+                                <i class="fas fa-check"></i>
+                                <span>Reportes detallados</span>
+                            </div>
+                            <div class="feature-item">
+                                <i class="fas fa-check"></i>
+                                <span>Acceso móvil</span>
+                            </div>
+                            <div class="feature-item">
+                                <i class="fas fa-check"></i>
+                                <span>100% gratuito</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Password toggle functionality
+    const passwordToggles = document.querySelectorAll('.password-toggle');
+    
+    passwordToggles.forEach(toggle => {
+        toggle.addEventListener('click', function() {
+            const targetId = this.getAttribute('data-target');
+            const passwordField = document.getElementById(targetId);
+            
+            if (passwordField) {
+                const type = passwordField.getAttribute('type') === 'password' ? 'text' : 'password';
+                passwordField.setAttribute('type', type);
+                
+                const icon = this.querySelector('i');
+                if (type === 'text') {
+                    icon.classList.remove('fa-eye');
+                    icon.classList.add('fa-eye-slash');
+                } else {
+                    icon.classList.remove('fa-eye-slash');
+                    icon.classList.add('fa-eye');
+                }
+            }
+        });
+    });
+
+    // Form submission with loading state
+    const registerForm = document.querySelector('form');
+    const registerBtn = document.getElementById('registerBtn');
+    const registerBtnText = document.getElementById('registerBtnText');
+    
+    if (registerForm && registerBtn) {
+        registerForm.addEventListener('submit', function(e) {
+            // Check if terms are accepted
+            const acceptTerms = document.getElementById('acceptTerms');
+            if (!acceptTerms.checked) {
+                e.preventDefault();
+                alert('Debe aceptar los t��rminos de servicio para continuar.');
+                acceptTerms.focus();
+                return;
+            }
+            
+            registerBtn.disabled = true;
+            registerBtn.style.opacity = '0.7';
+            registerBtnText.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i>Creando cuenta...';
+            
+            // Re-enable button after 10 seconds as fallback
+            setTimeout(() => {
+                registerBtn.disabled = false;
+                registerBtn.style.opacity = '1';
+                registerBtnText.innerHTML = 'Crear Cuenta';
+            }, 10000);
+        });
+    }
+
+    // Enhanced input animations and validation
+    const inputs = document.querySelectorAll('.form-floating-modern input, .form-floating-modern select');
+    inputs.forEach(input => {
+        input.addEventListener('focus', function() {
+            this.parentElement.classList.add('focused');
+        });
+        
+        input.addEventListener('blur', function() {
+            this.parentElement.classList.remove('focused');
+            
+            // Real-time validation
+            if (this.type === 'email' && this.value) {
+                const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                if (!emailRegex.test(this.value)) {
+                    this.classList.add('border-danger');
+                } else {
+                    this.classList.remove('border-danger');
+                }
+            }
+        });
+        
+        input.addEventListener('input', function() {
+            if (this.classList.contains('border-danger') && this.value) {
+                if (this.type === 'email') {
+                    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                    if (emailRegex.test(this.value)) {
+                        this.classList.remove('border-danger');
+                    }
+                } else {
+                    this.classList.remove('border-danger');
+                }
+            }
+        });
+    });
+
+    // Password confirmation validation
+    const password1 = document.getElementById('{{ form.password1.id_for_label }}');
+    const password2 = document.getElementById('{{ form.password2.id_for_label }}');
+    
+    if (password1 && password2) {
+        password2.addEventListener('input', function() {
+            if (this.value && password1.value !== this.value) {
+                this.classList.add('border-danger');
+            } else {
+                this.classList.remove('border-danger');
+            }
+        });
+    }
+});
+</script>
 {% endblock %}

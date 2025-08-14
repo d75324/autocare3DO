@@ -10,9 +10,11 @@ from django.views.generic.edit import DeleteView
 from django.contrib.auth.views import LoginView
 from autocare.forms import LoginForm
 
+
 # pagina de antes de loguearse
 class CeroView(TemplateView):
     template_name = 'cero.html'
+
 
 # pagina de inicio, sin loguearse
 class HomeView(TemplateView):
@@ -33,15 +35,29 @@ class HomeView(TemplateView):
             context['total_mechanics'] = User.objects.filter(groups=mecanicos_group).count()
         except Group.DoesNotExist:
             context['total_mechanics'] = 0
+        
+        # Contar todos los usuarios registrados
+        context['total_users'] = User.objects.count()
+
+        # Contar usuarios en el grupo "Particulares"
+        try:
+            particulares_group = Group.objects.get(name='Particulares')
+            context['total_particulares'] = User.objects.filter(groups=particulares_group).count()
+        except Group.DoesNotExist:
+            context['total_particulares'] = 0
 
         return context
+
 
 # pagina de Features
 class VersionesView(TemplateView):
     template_name = 'versiones.html'
 
+
+
 class PricingView(TemplateView):
     template_name = 'pricing.html'
+
 
 # registro de usuarios
 class RegisterView(View):
@@ -65,6 +81,7 @@ class RegisterView(View):
                 'form': user_creation_form
             }
             return render(request, 'registration/register.html', data)
+
 
 # pagina de perfil
 class ProfileView(TemplateView):
@@ -125,6 +142,7 @@ class ProfileView(TemplateView):
         context['profile_form'] = profile_form
         return render(request, 'profile/profile.html', context)
 
+
 #class VehicleListView(ListView):
 class VehicleListView(ListView):
     model = Vehicle
@@ -169,6 +187,8 @@ class VehicleListView(ListView):
             context['form'] = form
             return self.render_to_response(context)
 
+
+# Aquí vamos a agregar un botón para descargar en CSV todos los servicios hechos al auto.
 class VehicleDetailView(DetailView):
     model = Vehicle
     template_name = 'vehicle_detail.html'
@@ -178,6 +198,8 @@ class VehicleDetailView(DetailView):
         vehicle = self.get_object() 
         context['total_cost'] = vehicle.total_service_cost() 
         return context
+
+
 
 class AddServiceView(TemplateView):
     #model = Service
@@ -215,6 +237,7 @@ class AddServiceView(TemplateView):
         context['form'] = form
         return self.render_to_response(context)
 
+
 # vista del histórico de servicios - nop!
 class ServicesView(ListView):
     model = Service
@@ -234,8 +257,10 @@ class ServicesView(ListView):
         context['profile_form'] = ProfileForm(instance=user.profile)
         return context
 
+
 class VehicleServiceListView(TemplateView):
     pass
+
 
 class VehicleDeleteView(DeleteView):
     model = Vehicle
@@ -246,6 +271,7 @@ class VehicleDeleteView(DeleteView):
         self.object = self.get_object()
         self.object.service_set.all().delete()  # acá se borran también los servicios asociados
         return super().delete(request, *args, **kwargs)
+
 
 class CustomLoginView(LoginView):
     form_class = LoginForm
