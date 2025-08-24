@@ -13,11 +13,11 @@
                 <p style="color: rgba(255, 255, 255, 0.8); line-height: 1.6; margin-bottom: 1.5rem;">
                     La plataforma más avanzada para la gestión inteligente de vehículos. Mantenga su auto en perfecto estado con nuestras herramientas profesionales.
                 </p>
-                <div class="d-flex gap-2">
-                    <a href="#" class="btn btn-outline-light btn-sm" style="width: 40px; height: 40px; border-radius: 8px; display: flex; align-items: center; justify-content: center;">
-                        <i class="fab fa-twitter"></i>
-                    </a>
-                </div>
+                    <div class="d-flex gap-2">
+                        <a href="https://x.com/webseguraco" class="btn btn-outline-light btn-sm" style="width: 40px; height: 40px; border-radius: 8px; display: flex; align-items: center; justify-content: center;">
+                            <i class="fab fa-twitter"></i>
+                        </a>
+                    </div>
             </div>
             
             <!-- Services -->
@@ -62,16 +62,6 @@
                     </li>
                     <li style="margin-bottom: 0.5rem;">
                         <a href="#" style="color: rgba(255, 255, 255, 0.8); text-decoration: none; transition: color 0.3s ease; font-size: 0.9rem;">
-                            Carreras
-                        </a>
-                    </li>
-                    <li style="margin-bottom: 0.5rem;">
-                        <a href="#" style="color: rgba(255, 255, 255, 0.8); text-decoration: none; transition: color 0.3s ease; font-size: 0.9rem;">
-                            Blog
-                        </a>
-                    </li>
-                    <li style="margin-bottom: 0.5rem;">
-                        <a href="#" style="color: rgba(255, 255, 255, 0.8); text-decoration: none; transition: color 0.3s ease; font-size: 0.9rem;">
                             Prensa
                         </a>
                     </li>
@@ -84,11 +74,6 @@
                     Soporte
                 </h5>
                 <ul style="list-style: none; padding: 0; margin: 0;">
-                    <li style="margin-bottom: 0.5rem;">
-                        <a href="#" style="color: rgba(255, 255, 255, 0.8); text-decoration: none; transition: color 0.3s ease; font-size: 0.9rem;">
-                            Centro de Ayuda
-                        </a>
-                    </li>
                     <li style="margin-bottom: 0.5rem;">
                         <a href="#" style="color: rgba(255, 255, 255, 0.8); text-decoration: none; transition: color 0.3s ease; font-size: 0.9rem;">
                             Contactar Soporte
@@ -113,17 +98,18 @@
                     Contacto
                 </h5>
                 <div style="color: rgba(255, 255, 255, 0.8); font-size: 0.9rem; line-height: 1.6;">
-                    <div style="margin-bottom: 0.75rem; display: flex; align-items: center; gap: 0.5rem;">
+                    <div style="margin-bottom: 0.75rem; display: flex; align-items:center; gap: 0.5rem;">
                         <i class="fas fa-envelope" style="color: var(--primary-green); width: 16px;"></i>
                         <a href="mailto:websegura.co@gmail.com" style="color: rgba(255, 255, 255, 0.8); text-decoration: none;">
                             websegura.co@gmail.com
                         </a>
                     </div>
-                    <div style="margin-bottom: 0.75rem; display: flex; align-items: center; gap: 0.5rem;">
-                        <i class="fas fa-phone" style="color: var(--primary-green); width: 16px;"></i>
-                        <span>+54 9 11 1234-5678</span>
                     </div>
-                    <div style="margin-bottom: 0.75rem; display: flex; align-items: flex-start; gap: 0.5rem;">
+<div style="margin-bottom: 0.75rem; display: flex; align-items:center; gap: 0.5rem;">
+    <i class="fas fa-phone" style="color: var(--primary-green); width: 16px;"></i>
+    <span>+598 99 248 347</span>
+</div>
+                    <div style="margin-bottom: 0.75rem; display: flex; align-items:flex-start; gap: 0.5rem;">
                         <i class="fas fa-map-marker-alt" style="color: var(--primary-green); width: 16px; margin-top: 2px;"></i>
                         <span>Montevideo, Uruguay</span>
                     </div>
@@ -153,7 +139,7 @@
             <div class="row text-center">
                 <div class="col-3">
                     <div style="color: white; font-weight: 700; font-size: 1.5rem; margin-bottom: 0.25rem;">
-                        {{ total_vehicles|default:'0' }}
+                        {{ total_vehicles|default:"0" }}
                     </div>
                     <div style="color: rgba(255, 255, 255, 0.8); font-size: 0.875rem;">
                         Vehículos
@@ -161,7 +147,7 @@
                 </div>
                 <div class="col-3">
                     <div style="color: white; font-weight: 700; font-size: 1.5rem; margin-bottom: 0.25rem;">
-                        {{ total_mechanics|default:'0' }}
+                        {{ total_mechanics|default:"0" }}
                     </div>
                     <div style="color: rgba(255, 255, 255, 0.8); font-size: 0.875rem;">
                         Mecánicos
@@ -169,7 +155,7 @@
                 </div>
                 <div class="col-3">
                     <div style="color: white; font-weight: 700; font-size: 1.5rem; margin-bottom: 0.25rem;">
-                        {{ total_services|default:'0' }}
+                        {{ total_services|default:"0" }}
                     </div>
                     <div style="color: rgba(255, 255, 255, 0.8); font-size: 0.875rem;">
                         Servicios
@@ -177,7 +163,7 @@
                 </div>
                 <div class="col-3">
                     <div style="color: white; font-weight: 700; font-size: 1.5rem; margin-bottom: 0.25rem;">
-                        {{ total_users|default:'0' }}
+                        {{ total_users|default:"0" }}
                     </div>
                     <div style="color: rgba(255, 255, 255, 0.8); font-size: 0.875rem;">
                         Usuarios
@@ -188,150 +174,6 @@
         {% endif %}
     </div>
 </footer>
-
-<!-- Surcodia Development Credits -->
-<div style="
-    position: relative;
-    width: 100%;
-    height: 80px;
-    background: white;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    overflow: hidden;
-    border-top: 1px solid rgba(57, 73, 171, 0.2);
-    border-bottom: 1px solid rgba(57, 73, 171, 0.2);
-">
-    <!-- Particles Container -->
-    <div id="surcodia-particles" style="
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        pointer-events: none;
-        overflow: hidden;
-    "></div>
-    
-    <!-- Watermark Content -->
-    <a href="https://surcodia.com" target="_blank" style="display: flex; align-items: center; gap: 12px; z-index: 2; position: relative; transition: transform 0.3s; text-decoration: none; cursor: pointer; transform: scale(1);" onmouseenter="this.style.transform='scale(1.02)'" onmouseleave="this.style.transform='scale(1)'">
-        
-        <!-- Left Line -->
-        <div style="
-            width: 60px;
-            height: 1px;
-            background: linear-gradient(90deg, transparent 0%, rgba(57, 73, 171, 0.8) 50%, transparent 100%);
-            animation: surcodia-pulse 2s ease-in-out infinite;
-        "></div>
-        
-        <!-- Text -->
-        <p style="
-            color: #3949AB;
-            font-size: 14px;
-            font-weight: 300;
-            letter-spacing: 0.5px;
-            margin: 0;
-            font-family: 'Inter', Arial, sans-serif;
-            transition: color 0.3s ease;
-        ">Developed by</p>
-        
-        <!-- Logo -->
-        <img src="https://surcodia.com/img/logo.png" alt="Surcodia" style="
-            height: 24px;
-            width: auto;
-            opacity: 1;
-            transition: all 0.3s ease;
-        ">
-        
-        <!-- Right Line -->
-        <div style="
-            width: 60px;
-            height: 1px;
-            background: linear-gradient(90deg, transparent 0%, rgba(57, 73, 171, 0.8) 50%, transparent 100%);
-            animation: surcodia-pulse 2s ease-in-out infinite;
-        "></div>
-    </a>
-</div>
-
-<style>
-@keyframes surcodia-pulse {
-    0%, 100% {
-        opacity: 0.5;
-        transform: scaleX(0.8);
-    }
-    50% {
-        opacity: 1;
-        transform: scaleX(1);
-    }
-}
-
-@keyframes surcodia-particle-float {
-    0% {
-        transform: translateX(0) translateY(0) rotate(0deg);
-        opacity: 0;
-    }
-    10% {
-        opacity: 1;
-    }
-    90% {
-        opacity: 1;
-    }
-    100% {
-        transform: translateX(100vw) translateY(-20px) rotate(360deg);
-        opacity: 0;
-    }
-}
-
-.surcodia-particle {
-    position: absolute;
-    background: radial-gradient(circle, rgba(57, 73, 171, 0.6) 0%, rgba(57, 73, 171, 0.1) 70%, transparent 100%);
-    border-radius: 50%;
-    animation: surcodia-particle-float linear infinite;
-}
-</style>
-
-<script>
-// Surcodia Particles Animation
-function createSurcodiaParticles() {
-    const particlesContainer = document.getElementById('surcodia-particles');
-    const particleCount = 30;
-    
-    // Clear existing particles
-    particlesContainer.innerHTML = '';
-    
-    for (let i = 0; i < particleCount; i++) {
-        const particle = document.createElement('div');
-        particle.className = 'surcodia-particle';
-        
-        // Random properties
-        const size = Math.random() * 2 + 1; // 1-3px
-        const startY = Math.random() * 80; // 0-80px (height of container)
-        const duration = Math.random() * 4 + 4; // 4-8 seconds
-        const delay = Math.random() * 2; // 0-2 seconds
-        const opacity = Math.random() * 0.5 + 0.2; // 0.2-0.7
-        
-        particle.style.cssText = `
-            top: ${startY}px;
-            left: -10px;
-            width: ${size}px;
-            height: ${size}px;
-            animation-duration: ${duration}s;
-            animation-delay: ${delay}s;
-            opacity: ${opacity};
-        `;
-        
-        particlesContainer.appendChild(particle);
-    }
-}
-
-// Initialize particles
-document.addEventListener('DOMContentLoaded', function() {
-    createSurcodiaParticles();
-    
-    // Recreate particles every 8 seconds to keep the animation fresh
-    setInterval(createSurcodiaParticles, 8000);
-});
-</script>
 
 <style>
 .footer-modern a:hover {

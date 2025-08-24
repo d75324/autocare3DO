@@ -2,7 +2,14 @@ import os
 from pathlib import Path
 from dotenv import load_dotenv
 
-from decouple import config, Config, AutoConfig
+
+# tenía instalada la versión 3.0 y no funcionaba con el método config() de decouple.
+#from decouple import config, Config, AutoConfig
+#from decouple import Config, AutoConfig  # Correcto para v3+ (ahora tengo instalada la 3.8.0)
+#config = Config()  # Creamos una instancia de Config como parte del cambio.
+# mierda! volvió a cambiar para 3.8!
+from decouple import config
+
 from dj_database_url import parse as db_url
 
 # Carga el archivo .env desde la raíz del proyecto
@@ -10,7 +17,9 @@ load_dotenv()
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-SECRET_KEY = 'django-insecure-a3e@zb8242&o$mib-4wd3^m!ne4f470vzimd*t@5-0^gq^z25k'
+# antes del cambio de decouple, tenía la siguiente línea:
+# SECRET_KEY = 'django-insecure-a3e@zb8242&o$mib-4wd3^m!ne4f470vzimd*t@5-0^gq^z25k'
+SECRET_KEY = config('SECRET_KEY')
 
 #DEBUG = False
 
@@ -114,11 +123,8 @@ AUTH_PASSWORD_VALIDATORS = [
 # https://docs.djangoproject.com/en/5.1/topics/i18n/
 
 LANGUAGE_CODE = 'en-us'
-
 TIME_ZONE = 'UTC'
-
 USE_I18N = True
-
 USE_TZ = True
 
 

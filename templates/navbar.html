@@ -49,8 +49,8 @@
               </a>
             </li> -->
           {% elif user.profile.is_mechanic %}
-            <!--
-            <li class="nav-item">
+          <!--   
+          <li class="nav-item">
               <a class="nav-link" href="#">
                 <i class="fas fa-wrench me-1"></i>
                 Trabajos
@@ -61,7 +61,7 @@
                 <i class="fas fa-users me-1"></i>
                 Clientes
               </a>
-            </li> -->
+            </li>-->
           {% endif %}
         {% else %}
           <li class="nav-item">
@@ -77,9 +77,9 @@
             </a>
           </li>
           <li class="nav-item">
-            <a class="nav-link smooth-scroll acerca-btn" href="#benefits">
+            <a class="nav-link smooth-scroll" href="#benefits">
               <i class="fas fa-question-circle me-1"></i>
-              ¿Por qué AutoCare?
+              ¿Por que AutoCare?
             </a>
           </li>
         {% endif %}
@@ -88,22 +88,20 @@
       <!-- Right side buttons -->
       <div class="d-flex align-items-center gap-2">
         {% if user.is_authenticated %}
-          <!-- Simplified user info with just logout 
-          <div class="d-flex align-items-center gap-3">
-            <span class="user-welcome d-none d-md-inline">
-              <i class="fas fa-user-circle me-2"></i>
-              {{ user.first_name|default:user.username }}
-            </span> -->
-            
-            <!-- Logout button -->
-            <form method="post" action="{% url 'logout' %}" style="margin: 0;">
-              {% csrf_token %}
-              <button type="submit" class="btn btn-logout">
-                <i class="fas fa-sign-out-alt me-1"></i>
-                <span class="d-none d-md-inline">Cerrar Sesión</span>
-              </button>
-            </form>
-          </div>
+          <!-- no necesitamos el nombre del usuario aqui: 
+          <span class="user-greeting d-none d-md-inline me-2">
+            <i class="fas fa-user-circle me-1"></i>
+            {{ user.first_name|default:user.username }}
+          </span> -->
+          
+          <!-- Logout button -->
+          <form method="post" action="{% url 'logout' %}" style="margin: 0;">
+            {% csrf_token %}
+            <button type="submit" class="btn btn-logout">
+              <i class="fas fa-sign-out-alt me-1"></i>
+              <span class="d-none d-md-inline">Cerrar Sesión</span>
+            </button>
+          </form>
         {% else %}
           <!-- Guest buttons -->
           <a href="{% url 'login' %}" class="btn btn-outline me-2">
@@ -123,10 +121,14 @@
 <!-- Add some padding to the body to account for the fixed navbar -->
 <style>
   body {
-    padding-top: 76px;
+    padding-top: 110px; /* Increased to account for taller navbar */
   }
   
-  /* Navbar Variants */
+  /* Navbar Variants - INCREASED VERTICAL PADDING */
+  .navbar {
+    padding: 1.5rem 0; /* Increased vertical padding for more height */
+  }
+  
   .navbar-guest {
     background: rgba(255, 255, 255, 0.95);
     backdrop-filter: blur(20px);
@@ -154,6 +156,7 @@
     font-weight: 800;
     text-decoration: none;
     gap: 0.5rem;
+    padding: 0.5rem 0; /* Added padding to brand */
   }
   
   .navbar-guest .navbar-brand-text {
@@ -169,6 +172,7 @@
   .navbar-toggler {
     border: none;
     font-size: 1.2rem;
+    padding: 0.5rem 0.75rem; /* Increased padding */
   }
   
   .navbar-guest .navbar-toggler {
@@ -180,12 +184,12 @@
     color: white;
   }
   
-  /* Nav Links */
+  /* Nav Links - INCREASED PADDING */
   .nav-link {
     font-weight: 500;
     position: relative;
     transition: all 0.3s ease;
-    padding: 0.5rem 1rem;
+    padding: 0.75rem 1rem; /* Increased from 0.5rem */
   }
   
   .navbar-guest .nav-link {
@@ -197,44 +201,49 @@
     color: rgba(255, 255, 255, 0.9);
   }
   
-  /* User Welcome Text */
-  .user-welcome {
+  /* User Greeting */
+  .user-greeting {
     font-weight: 500;
+    padding: 0.5rem 0;
   }
   
-  .navbar-guest .user-welcome {
+  .navbar-guest .user-greeting {
     color: var(--text-dark);
   }
   
-  .navbar-mechanic .user-welcome,
-  .navbar-particular .user-welcome {
-    color: white;
+  .navbar-mechanic .user-greeting,
+  .navbar-particular .user-greeting {
+    color: rgba(255, 255, 255, 0.9);
   }
   
-  /* Logout Button - Red theme */
+  /* Logout Button */
   .btn-logout {
-    border: 1px solid rgba(220, 38, 38, 0.3);
+    padding: 0.6rem 1rem;
+    border-radius: 6px;
+    border: 1px solid #DC2626;
+    transition: all 0.3s ease;
+    font-weight: 500;
     background: rgba(220, 38, 38, 0.1);
     color: #DC2626;
-    font-weight: 500;
-    transition: all 0.3s ease;
-    padding: 0.375rem 0.75rem;
-    border-radius: 6px;
   }
   
   .btn-logout:hover {
     background: #DC2626;
+    border-color: #DC2626;
     color: white;
     transform: translateY(-1px);
-    box-shadow: 0 4px 12px rgba(220, 38, 38, 0.3);
-    border-color: #DC2626;
   }
   
-  /* Guest buttons */
+  /* Guest buttons - INCREASED PADDING */
   .btn-outline {
     color: var(--text-dark);
     border-color: var(--border-color);
     background: transparent;
+    padding: 0.6rem 1rem; /* Increased padding */
+  }
+  
+  .btn-primary {
+    padding: 0.6rem 1rem; /* Increased padding */
   }
   
   .navbar {
@@ -323,12 +332,10 @@
       display: none;
     }
     
-    .user-welcome {
-      margin-bottom: 1rem;
-      padding: 0.5rem 1rem;
-      background: var(--light-green);
-      border-radius: 8px;
-      color: var(--text-dark) !important;
+    /* Mobile logout button styling */
+    .btn-logout {
+      width: 100%;
+      margin-top: 0.5rem;
     }
   }
 </style>
@@ -361,55 +368,20 @@ document.addEventListener('DOMContentLoaded', function() {
     }
   });
 
-  // Smooth scroll for anchor links with navbar height compensation
+  // Smooth scroll for anchor links - UPDATED OFFSET
   document.querySelectorAll('a.smooth-scroll[href^="#"]').forEach(anchor => {
     anchor.addEventListener('click', function (e) {
       e.preventDefault();
       const target = document.querySelector(this.getAttribute('href'));
       if (target) {
-        // Account for fixed navbar height
+        // Account for fixed navbar height (now taller)
         const navbarHeight = document.querySelector('.navbar').offsetHeight;
-        const targetPosition = target.offsetTop - navbarHeight - 60; // Increased offset for better visibility
+        const targetPosition = target.offsetTop - navbarHeight - 10; // Added extra 10px margin
         
         window.scrollTo({
           top: targetPosition,
           behavior: 'smooth'
         });
-        
-        // Close mobile menu if open
-        const navbarCollapse = document.querySelector('.navbar-collapse');
-        if (navbarCollapse.classList.contains('show')) {
-          const bsCollapse = new bootstrap.Collapse(navbarCollapse, {
-            toggle: false
-          });
-          bsCollapse.hide();
-        }
-      }
-    });
-  });
-
-  // Specific handler for "¿Por qué AutoCare?" button with better scroll positioning
-  document.querySelectorAll('.acerca-btn').forEach(button => {
-    button.addEventListener('click', function(e) {
-      e.preventDefault();
-      const benefitsSection = document.getElementById('benefits');
-      if (benefitsSection) {
-        const navbarHeight = document.querySelector('.navbar').offsetHeight;
-        const targetPosition = benefitsSection.offsetTop - navbarHeight - 80; // Extra space for better title visibility
-        
-        window.scrollTo({
-          top: targetPosition,
-          behavior: 'smooth'
-        });
-        
-        // Close mobile menu if open
-        const navbarCollapse = document.querySelector('.navbar-collapse');
-        if (navbarCollapse.classList.contains('show')) {
-          const bsCollapse = new bootstrap.Collapse(navbarCollapse, {
-            toggle: false
-          });
-          bsCollapse.hide();
-        }
       }
     });
   });
