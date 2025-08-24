@@ -1,33 +1,20 @@
 import os
 from pathlib import Path
-from dotenv import load_dotenv
-
-
-# tenía instalada la versión 3.0 y no funcionaba con el método config() de decouple.
-#from decouple import config, Config, AutoConfig
-#from decouple import Config, AutoConfig  # Correcto para v3+ (ahora tengo instalada la 3.8.0)
-#config = Config()  # Creamos una instancia de Config como parte del cambio.
-# mierda! volvió a cambiar para 3.8!
 from decouple import config
-
 from dj_database_url import parse as db_url
 
-# Carga el archivo .env desde la raíz del proyecto
-load_dotenv()
-
+# Build paths inside the project like this: BASE_DIR / 'subdir'
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-# antes del cambio de decouple, tenía la siguiente línea:
-# SECRET_KEY = 'django-insecure-a3e@zb8242&o$mib-4wd3^m!ne4f470vzimd*t@5-0^gq^z25k'
+# SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = config('SECRET_KEY')
 
-#DEBUG = False
-
-# traemos DEBUG: True en desarrollo, False en producción (según el .env)
-DEBUG = os.getenv('DEBUG', 'False') == 'True'  # Default seguro en False
+# SECURITY WARNING: don't run with debug turned on in production!
+DEBUG = config('DEBUG', default=False, cast=bool)
 
 ALLOWED_HOSTS = ['167.99.149.87', 'localhost', 'cuidamostuauto.com', 'www.cuidamostuauto.com', '127.0.0.1']
 
+# Application definition
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
@@ -39,7 +26,6 @@ INSTALLED_APPS = [
     'crispy_bootstrap5',
     'accounts.apps.AccountsConfig',
     'autocare',
-
 ]
 
 CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap5"
@@ -75,34 +61,20 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'mysite.wsgi.application'
 
-# Configuración de la base de datos
+# Database
+# Configuración más robusta con decouple
 DATABASES = {
     'default': {
-        'ENGINE': os.getenv('DB_ENGINE', 'django.db.backends.sqlite3'),  # Default SQLite
-        'NAME': os.getenv('DB_NAME', str(BASE_DIR / 'db.sqlite3')),      # Default db.sqlite3
-        'USER': os.getenv('DB_USER', ''),
-        'PASSWORD': os.getenv('DB_PASSWORD', ''),
-        'HOST': os.getenv('DB_HOST', ''),
-        'PORT': os.getenv('DB_PORT', ''),
+        'ENGINE': config('DB_ENGINE', default='django.db.backends.sqlite3'),
+        'NAME': config('DB_NAME', default=str(BASE_DIR / 'db.sqlite3')),
+        'USER': config('DB_USER', default=''),
+        'PASSWORD': config('DB_PASSWORD', default=''),
+        'HOST': config('DB_HOST', default=''),
+        'PORT': config('DB_PORT', default=''),
     }
 }
 
-# Databases antes de configurar el entorno virtual.
-#DATABASES = {
-#    'default': {
-#        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-#        'NAME': 'autocaredb',
-#        'USER': 'acuser',
-#        'PASSWORD': 'acuser35',
-#        'HOST': 'localhost',
-#        'PORT': '',
-#    }
-#}
-
-
 # Password validation
-# https://docs.djangoproject.com/en/5.1/ref/settings/#auth-password-validators
-
 AUTH_PASSWORD_VALIDATORS = [
     {
         'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
@@ -118,31 +90,26 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-
 # Internationalization
-# https://docs.djangoproject.com/en/5.1/topics/i18n/
-
 LANGUAGE_CODE = 'en-us'
 TIME_ZONE = 'UTC'
 USE_I18N = True
 USE_TZ = True
 
-
-# Donde colocar la carpeta static? Si es una única aplicación, puede ir
-# en la carpeta de la aplicación (donde está el archivo manage.py). Sinó, en la carpeta del proyecto (donde están las aplicaciones y mysite).
-
+# Static files (CSS, JavaScript, Images)
 STATIC_URL = '/static/'
-
 STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, 'static'),
+    BASE_DIR / 'static',
 ]
+STATIC_ROOT = BASE_DIR / 'staticfiles'
 
-DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
-
-STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles/')
-
-MEDIA_ROOT = os.path.join(BASE_DIR, "media")
+# Media files
+MEDIA_ROOT = BASE_DIR / 'media'
 MEDIA_URL = '/media/'
 
+# Default primary key field type
+DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+# Authentication
 LOGIN_REDIRECT_URL = 'profile'
 LOGOUT_REDIRECT_URL = 'home'
