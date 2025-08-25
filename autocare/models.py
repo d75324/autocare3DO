@@ -14,42 +14,40 @@ USER_TYPE_CHOICES = [
 
 # Todas las marcas de autos disponibles. 
 BRAND_CHOICES = [
-
-        ('Honda', 'Honda'),
-        ('Chevrolet', 'Chevrolet'),
-        ('VW', 'VW'),
-        ('Fiat', 'Fiat'),
-        ('Jeep', 'Jeep'),
-        ('Renault', 'Renault'),
-        ('Citroen', 'Citroen'),
-        ('Zuzuki', 'Zuzuki'),
-        ('Nizzan', 'Nizzan'),
-        ('Mercedes Benz', 'Mercedes Benz'),
-        ('Subaru', 'Subaru'),
-        ('Toyota', 'Toyota'),
-        ('BYD', 'BYD'),
-        ('Hyundai', 'Hyundai'),
-        ('Peugeot', 'Peugeot'),
-        ('Mazda', 'Mazda'),
-        ('Chery', 'Chery'),
-        ('Kia', 'Kia'),
-        ('Ford', 'Ford'),
-        ('Changan', 'Changan'),
-        ('BMW', 'BMW'),
         ('Audi', 'Audi'),
+        ('BMW', 'BMW'),
+        ('BYD', 'BYD'),
+        ('Changan', 'Changan'),
+        ('Chery', 'Chery'),
+        ('Chevrolet', 'Chevrolet'),
+        ('Citroen', 'Citroen'),
         ('DFSK', 'DFSK'),
         ('Dodge', 'Dodge'),
         ('Faw', 'Faw'),
-        ('Geely', 'Geely'),
+        ('Fiat', 'Fiat'),
+        ('Ford', 'Ford'),
+        ('Geely', 'Geely'),        
         ('Haima', 'Haima'),
         ('Haval', 'Haval'),
+        ('Honda', 'Honda'),
+        ('Hyundai', 'Hyundai'),
+        ('Jeep', 'Jeep'),
         ('Jetour', 'Jetour'),
         ('JMC', 'JMC'),
+        ('Kia', 'Kia'),
         ('Land Rover', 'Land Rover'),
+        ('Mazda', 'Mazda'),
+        ('Mercedes Benz', 'Mercedes Benz'),
         ('Mitsubishi', 'Mitsubishi'),
+        ('Nizzan', 'Nizzan'),
+        ('Peugeot', 'Peugeot'),
+        ('Renault', 'Renault'),
         ('Seat', 'Seat'),
+        ('Subaru', 'Subaru'),
+        ('Toyota', 'Toyota'),
         ('Volvo', 'Volvo'),
-
+        ('VW', 'VW'),
+        ('Zuzuki', 'Zuzuki'),
 ]
 
 # todos los servicios que se le pueden hacer a un auto
@@ -112,7 +110,8 @@ class Service(models.Model):
     date = models.DateField(default=timezone.now, verbose_name='Fecha Servicio')
     kilometers = models.IntegerField(default=0, verbose_name='Kilometraje')
     service_type = models.CharField(max_length=500, choices=SERVICE_TYPE_CHOICES, verbose_name='Tipo de Servicio')
-    coments = models.TextField(verbose_name='Comentarios', blank=True, help_text="Indique cualquier cosa que desee comentar")
+    coments = models.TextField(verbose_name='Comentarios', blank=True)
+    #coments = models.TextField(verbose_name='Comentarios', blank=True, help_text="Indique cualquier cosa que desee comentar")
     cost = models.IntegerField(verbose_name='Costo del Servicio')
     created_at = models.DateField(auto_now_add=True, verbose_name='Fecha Servicio')
 

@@ -9,7 +9,8 @@ from django.urls import reverse_lazy
 from django.views.generic.edit import DeleteView
 from django.contrib.auth.views import LoginView
 from autocare.forms import LoginForm
-
+import csv
+from django.http import HttpResponse
 
 # pagina de antes de loguearse
 class CeroView(TemplateView):
@@ -276,3 +277,33 @@ class VehicleDeleteView(DeleteView):
 class CustomLoginView(LoginView):
     form_class = LoginForm
     template_name = 'registration/login.html'
+
+
+# vista para descargar el CSV con el listado de los servicios realizados a un vehículo.
+class DownloadCSVView(View):
+    def get(self, request, *args, **kwargs):
+        # obtenemos el ID del vehículo desde el argumento de la URL
+        vehicle_id = self.kwargs['vehicle_id']
+        vehicle = Vehicle.objects.get(id=vehicle_id)
+
+        # creamos respuesta HTTP con el tipo de contenido CSV
+        response = HttpResponse(content_type='text/csv')
+        response['Content-Disposition'] = f'attachment; filename="Servicios_{vehicle.plate}.csv"'
+
+        # creamos el CSV, definimos las cabeceras
+        writer = csv.writer(response)
+        writer.writerow(['Patente', 'Fecha Servicio', 'Kilometraje', 'Costo del Servicio', 'Tipo de Servicio', 'Comentarios'])
+
+        # agregamos los datos de cada servicio
+        services = Service.objects.filter(vehicle=vehicle)
+        for service in services:
+            writer.writerow([
+                vehicle.plate,
+                service.date.strftime('%Y-%m-%d'),
+                service.kilometers,
+                service.cost,
+                service.service_type,
+                service.coments
+            ])
+
+        return response
