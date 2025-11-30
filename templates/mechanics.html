@@ -1,0 +1,107 @@
+{% extends 'base.html' %} 
+
+{% block content %}
+<div class="container mt-5">
+
+    <h2>Encuentre aquí al próximo mecánico de su automovil!</h2>
+
+    {% if total_mechanics %}
+        <p class="text-muted">Total de mecánicos registrados: <strong>{{ total_mechanics }}</strong></p>
+    {% endif %}
+
+    <hr>
+    
+    {% if mecanicos_list %}
+        <div class="row">
+        {% for mecanico in mecanicos_list %}
+            <div class="col-lg-6 col-md-6 mb-4">
+                
+                <div class="card shadow-sm h-100">
+                    <div class="card-body d-flex flex-column">
+                        
+                        <div class="d-flex w-100 mb-3">
+                            
+                            <div class="me-3 text-center">
+                                {% if mecanico.profile.image %}
+                                    <img src="{{ mecanico.profile.image.url }}" 
+                                         alt="Foto de {{ mecanico.first_name }}" 
+                                         class="rounded-circle" 
+                                         style="width: 70px; height: 70px; object-fit: cover;">
+                                {% else %}
+                                    <div class="rounded-circle bg-light d-flex align-items-center justify-content-center" 
+                                         style="width: 70px; height: 70px;">
+                                        <i class="fas fa-user-circle fa-2x text-muted"></i>
+                                    </div>
+                                {% endif %}
+                                <h6 class="mt-2 mb-0 fw-bold">{{ mecanico.first_name }} {{ mecanico.last_name }}</h6>
+                                <small class="text-muted">Mecánico</small>
+                            </div>
+                            
+                            <div class="flex-grow-1 border-start ps-3">
+                                <ul class="list-unstyled mb-0">
+                                    <li class="mb-1">
+                                        <i class="fas fa-envelope me-2 text-primary"></i> 
+                                        {{ mecanico.email }}
+                                    </li>
+                                    <li class="mb-1">
+                                        <i class="fas fa-phone me-2 text-success"></i> 
+                                        {{ mecanico.profile.telephone }}
+                                    </li>
+                                    <li>
+                                        <i class="fas fa-map-marker-alt me-2 text-danger"></i>
+                                        {{ mecanico.profile.address }}
+                                    </li>
+                                    <li class="mb-1">
+                                        <i class="fas fa-city me-2 text-info"></i> 
+                                        {{ mecanico.profile.location }}
+                                    </li>
+                                </ul>
+                            </div>                           
+                        </div>
+                        
+                        <hr class="mt-auto">
+
+                        <div class="d-flex gap-2 justify-content-center">
+                            <a href="#" 
+                               class="btn btn-primary btn-sm disabled" 
+                               aria-disabled="true" 
+                               title="Funcionalidad en desarrollo">
+                               <!-- <i class="fas fa-wrench me-1"></i> -->
+                                Contactar
+                            </a>
+                            <!--
+                            <a href="#" 
+                               class="btn btn-outline-secondary btn-sm disabled" 
+                               aria-disabled="true"
+                               title="Funcionalidad en desarrollo">
+                                <i class="fas fa-info-circle me-1"></i> 
+                                Ver Detalles
+                            </a>
+                            -->
+                        </div>
+                        
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+        </div>
+    {% else %}
+        <div class="alert alert-warning" role="alert">
+            No se encontraron mecánicos registrados en el grupo.
+        </div>
+    {% endif %}
+
+    <hr class="mt-4 mb-4">
+
+<!--     
+    
+    {# Botones Globales (Separados y Redondeados) #}
+    <div class="d-flex justify-content-end gap-3">
+        <a href="#" class="btn btn-primary rounded-pill disabled" aria-disabled="true">Botón 1</a>
+        <a href="#" class="btn btn-secondary rounded-pill disabled" aria-disabled="true">Botón 2</a>
+        <a href="#" class="btn btn-success rounded-pill disabled" aria-disabled="true">Botón 3</a>
+    </div>
+-->
+
+</div>
+{% endblock content %}

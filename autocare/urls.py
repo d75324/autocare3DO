@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import HomeView, PricingView, RegisterView, VersionesView, CeroView, ProfileView, VehicleListView, AddServiceView, ServicesView, VehicleServiceListView, VehicleDetailView, VehicleDeleteView, DownloadCSVView
+from .views import HomeView, PricingView, RegisterView, VersionesView, CeroView, ProfileView, VehicleListView, AddServiceView, ServicesView, VehicleServiceListView, VehicleDetailView, VehicleDeleteView, DownloadCSVView, MechanicsView
 from autocare.views import CustomLoginView
 
 urlpatterns = [
@@ -15,4 +15,5 @@ urlpatterns = [
     path('vehicles/<int:pk>/delete/', VehicleDeleteView.as_view(), name='vehicle_delete'),
     path('login/', CustomLoginView.as_view(), name='login'),
     path('services/download/<int:vehicle_id>/', DownloadCSVView.as_view(), name='download_csv'),
+    path('mechanics/', MechanicsView.as_view(), name='mechanics'),
 ]

@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import authenticate, login, get_user_model
 from django.views.generic import TemplateView, ListView, DetailView
 from .models import Vehicle, Service
 from django.views import View
@@ -307,3 +307,25 @@ class DownloadCSVView(View):
             ])
 
         return response
+
+
+CustomUser = get_user_model()
+
+class MechanicsView(TemplateView):
+    template_name = 'mechanics.html'
+
+    def get_context_data(self, **kwargs):
+        # contexto inicial
+        context = super().get_context_data(**kwargs)
+        
+        # obtener la lista de usuarios del grupo 'Mecánicos'
+        mecanicos_list = CustomUser.objects.filter(groups__name='Mecanicos').order_by('username')
+        
+        # 3. Agregar los datos al contexto
+        context['mecanicos_list'] = mecanicos_list
+        context['total_mechanics'] = mecanicos_list.count()
+        
+        return context
+
+
+

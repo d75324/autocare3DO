@@ -59,6 +59,7 @@ SERVICE_TYPE_CHOICES = [
 ('Cambio pastillas de freno', 'Cambio pastillas de freno'),
 ('Filtro de combustible', 'Filtro de combustible'),
 ('Cambio de lubricación de transmisión', 'Cambio de lubricación de transmisión'),
+('Cambio Correa de Distribución ', 'Cambio Correa de Distribución'),
 ('Cambio de amortiguadores', 'Cambio de amortiguadores'),
 ('Cambio de cubiertas', 'Cambio de cubiertas'),
 ('Cambio de batería', 'Cambio de batería'),
