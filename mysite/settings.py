@@ -16,6 +16,7 @@ ALLOWED_HOSTS = ['167.99.149.87', 'localhost', 'cuidamostuauto.com', 'www.cuidam
 
 # aplicaciones instaladas
 INSTALLED_APPS = [
+    'autocare',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -25,7 +26,6 @@ INSTALLED_APPS = [
     'crispy_forms',
     'crispy_bootstrap5',
     'accounts.apps.AccountsConfig',
-    'autocare',
 ]
 
 CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap5"
@@ -59,6 +59,9 @@ TEMPLATES = [
     },
 ]
 
+# Justo debajo de donde defines TEMPLATES
+# print("Buscando templates en:", BASE_DIR / 'templates')
+
 WSGI_APPLICATION = 'mysite.wsgi.application'
 
 # Database
@@ -73,6 +76,17 @@ DATABASES = {
         'PORT': config('DB_PORT', default=''),
     }
 }
+
+# --- CONFIGURACIÓN DE EMAIL (Va a ser leída desde .ENV) ---
+EMAIL_BACKEND = config('EMAIL_BACKEND', default='django.core.mail.backends.smtp.EmailBackend')
+EMAIL_HOST = config('EMAIL_HOST', default='localhost') # se define un default seguro (o de desarrollo)
+EMAIL_PORT = config('EMAIL_PORT', default=587, cast=int) # Usamos cast=int para asegurar que es un número
+EMAIL_USE_TLS = config('EMAIL_USE_TLS', default=True, cast=bool) # Usamos cast=bool
+
+# Credenciales sensibles, se leen desde el .env
+EMAIL_HOST_USER = config('EMAIL_HOST_USER')
+EMAIL_HOST_PASSWORD = config('EMAIL_HOST_PASSWORD')
+# --- FIN CONFIGURACIÓN DE EMAIL ---
 
 # Password validation
 AUTH_PASSWORD_VALIDATORS = [
@@ -113,3 +127,9 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 # Authentication
 LOGIN_REDIRECT_URL = 'profile'
 LOGOUT_REDIRECT_URL = 'home'
+
+# Configuración del backend de email para desarrollo
+# EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+
+
+

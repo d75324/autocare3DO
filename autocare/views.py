@@ -1,3 +1,4 @@
+from asyncio.log import logger
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import authenticate, login, get_user_model
 from django.views.generic import TemplateView, ListView, DetailView
@@ -9,8 +10,20 @@ from django.urls import reverse_lazy
 from django.views.generic.edit import DeleteView
 from django.contrib.auth.views import LoginView
 from autocare.forms import LoginForm
-import csv
-from django.http import HttpResponse
+import csv, logging
+from django.http import HttpResponse, HttpResponseRedirect
+
+# importo estos recursos para crear una vista personalizada de restablecimiento de contraseña
+#from django.contrib.auth.views import PasswordResetView
+from django.core.mail import EmailMultiAlternatives
+from django.template.loader import render_to_string
+from django.utils.html import strip_tags
+from django.conf import settings
+
+
+# importo estos recursos para crear una vista personalizada de restablecimiento de contraseña
+from django.core.mail import EmailMultiAlternatives
+from django.template.loader import render_to_string
 
 # pagina de antes de loguearse
 class CeroView(TemplateView):
@@ -20,6 +33,8 @@ class CeroView(TemplateView):
 # pagina de inicio, sin loguearse
 class HomeView(TemplateView):
     template_name = 'home.html'
+    logger = logging.getLogger(__name__)
+
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -326,6 +341,5 @@ class MechanicsView(TemplateView):
         context['total_mechanics'] = mecanicos_list.count()
         
         return context
-
 
 
