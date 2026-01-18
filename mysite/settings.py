@@ -88,6 +88,8 @@ EMAIL_HOST_USER = config('EMAIL_HOST_USER')
 EMAIL_HOST_PASSWORD = config('EMAIL_HOST_PASSWORD')
 # --- FIN CONFIGURACIÓN DE EMAIL ---
 
+DEFAULT_FROM_EMAIL = "AutoCare <softdelia@gmail.com>"
+
 # Password validation
 AUTH_PASSWORD_VALIDATORS = [
     {
