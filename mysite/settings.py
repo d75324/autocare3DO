@@ -12,7 +12,16 @@ SECRET_KEY = config('SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = config('DEBUG', default=False, cast=bool)
 
-ALLOWED_HOSTS = ['167.99.149.87', 'localhost', 'cuidamostuauto.com', 'www.cuidamostuauto.com', '127.0.0.1']
+ALLOWED_HOSTS = ['167.99.149.87', 'localhost', '127.0.0.1', 'autocare.lvo-tech.com']
+
+# Agrego CSRF_TRUSTED_ORIGINS: hace que Django confíe en peticiones que vienen de los orígenes definidos, incluso si el header Host o el esquema (http/https) no coinciden exactamente.
+# ¿Por qué antes no lo necesitaba?
+# Porque en la configuración anterior, no había intermediarios (Cloudflare) que cambiaran el esquema (HTTP/HTTPS)
+
+CSRF_TRUSTED_ORIGINS = [
+    'https://autocare.lvo-tech.com',
+    'http://autocare.lvo-tech.com',  # Si usas HTTP temporalmente
+]
 
 # aplicaciones instaladas
 INSTALLED_APPS = [
