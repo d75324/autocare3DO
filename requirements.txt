@@ -2,13 +2,18 @@ asgiref==3.8.1
 crispy-bootstrap5==2025.4
 #decouple==0.0.7 # Afuera!!! Me hizo quilombo con python-decouple
 dj-database-url==3.0.1
-Django==5.1.8
+# Django==5.1.8 # También problemas con Django 5.1 y Python 3.14
+# instalar upgrade de django (6.0.7)
+Django==6.0.7
 django-crispy-forms==2.3
-dotenv==0.9.9
+# dotenv==0.9.9
 gunicorn==23.0.0
 packaging==24.2
-pillow==11.1.0
-psycopg2-binary==2.9.10
+# pillow==11.1.0 # la versión 11.1.0 de pillow no es soportada por python 3.14
+# entonces, no voy a definir la versión en requirements (==11.1.0), para que cuando la vaya a
+# buscar, traiga la última versión.
+pillow
+# psycopg2-binary==2.9.10
 python-decouple==3.8
 python-dotenv==1.1.1
 sqlparse==0.5.3
