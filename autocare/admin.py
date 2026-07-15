@@ -41,3 +41,10 @@ class ServiceBE(admin.ModelAdmin):
     )
 
 admin.site.register(Service, ServiceBE)
+
+# from django.contrib import admin
+
+# admin site personalizado
+admin.site.site_header = "AutoCare :: Panel de Control"
+admin.site.site_title = "AutoCare"
+admin.site.index_title = "Panel de Administración"
