@@ -4,8 +4,8 @@ from .models import Vehicle, Service
 from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
 from accounts.models import Profile
 from django.core.exceptions import ValidationError
+from accounts.utils import validate_name_field, validate_email_username
 import re
-
 
 class LoginForm(AuthenticationForm):
     username = forms.EmailField(label='Correo Electrónico')
@@ -14,7 +14,7 @@ class LoginForm(AuthenticationForm):
         if not user.is_active:
             raise forms.ValidationError('Esta cuenta está inactiva.', code='inactive')
 
-
+### --- FORMULARIO DE REGISTRO DE NUEVOS USUARIOS --- ###
 class RegisterForm(UserCreationForm):
     email = forms.EmailField(label='Correo Electrónico')
     first_name = forms.CharField(label='Nombre')
@@ -23,7 +23,8 @@ class RegisterForm(UserCreationForm):
 
     class Meta:
         model = User
-        fields = ['email', 'first_name', 'last_name', 'password1', 'password2']
+        fields = ['email', 'first_name', 'last_name'] ## ATENTO: UserCreationForm ya maneja internamente password1 y password2 ###
+        #fields = ['email', 'first_name', 'last_name', 'password1', 'password2']
     
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -35,74 +36,98 @@ class RegisterForm(UserCreationForm):
             self.fields['group'].initial = None
     
     ## -- VALIDAR LOS CARACTERES QUE SE INGRESAN EN EL FORMULARIO DE REGISTRO -- ##
+
+    def clean_email(self):
+        """Valida el email del formulario usando la lógica de utils.py"""
+        email = self.cleaned_data.get('email')
+        return validate_email_username(email)
     
     def clean_first_name(self): # valido first_name
+        """Valida el Nombre (first_name)"""
         first_name = self.cleaned_data.get('first_name') 
         return self._validate_name_field(first_name, "Nombre") # _gion bajo para metodos que se usan localmente dentro de la función
     
     def clean_last_name(self): # valido last_name
+        """Valida el Apellido (last_name)"""
         last_name = self.cleaned_data.get('last_name') 
         return self._validate_name_field(last_name, "Apellido") 
-    
-    def _validate_name_field(self, value, field_name): 
-        """Método común para validar nombres y apellidos""" 
-        if not value: 
-            raise ValidationError(f'El {field_name} es obligatorio.') 
-        
-        # Eliminar espacios al inicio y final 
-        value = value.strip() 
-        
-        # 1. Validar que solo contenga letras, espacios, ñ, tildes y guiones 
-        # Permitir caracteres Unicode (para ñ, tildes, etc.) 
-        if not re.match(r'^[A-Za-záéíóúÁÉÍÓÚñÑüÜ\s\-]+$', value): 
-            raise ValidationError( 
-                f'El {field_name} solo debe contener letras, espacios, ñ, tildes y guiones.' 
-            ) 
-        
-        # 2. Validar que no contenga URLs o caracteres sospechosos 
-        suspicious_patterns = [ 
-            r'https?://',      # URLs 
-            r'www\.',          # URLs sin http 
-            r'\.com',          # Dominios 
-            r'\.org',          # Dominios 
-            r'<[^>]+>',        # Tags HTML 
-            r'[{}()\[\]]',     # Corchetes y llaves 
-            r'[#@$%^&*+=]',    # Caracteres especiales comunes en spam 
-            r'código',         # Palabras clave sospechosas 
-            r'codigo', 
-            r'descuento', 
-            r'promoción', 
-            r'bugs', 
-            r'seguridad', 
-        ] 
-        
-        for pattern in suspicious_patterns: 
-            if re.search(pattern, value, re.IGNORECASE): 
-                raise ValidationError( 
-                    f'El {field_name} contiene caracteres o palabras no permitidas.' 
-                ) 
-        
-        # 3. Validar longitud mínima y máxima 
-        if len(value) < 3: 
-            raise ValidationError(f'El {field_name} debe tener al menos 3 caracteres.') 
-        if len(value) > 30: 
-            raise ValidationError(f'El {field_name} no puede exceder los 30 caracteres.') 
-        
-        # 4. Validar que no sea solo espacios 
-        if value.isspace(): 
-            raise ValidationError(f'El {field_name} no puede estar vacío.') 
-        
-        return value.title()  # Capitalizar el nombre
 
     ## -- FIN validación de caracteres en formulario de registro -- ##
+
+# START COMMENTED
     
+    # def _validate_name_field(self, value, field_name): 
+    #     """Método común para validar nombres y apellidos""" 
+    #     if not value: 
+    #         raise ValidationError(f'El {field_name} es obligatorio.')         
+    #     # Eliminar espacios al inicio y final 
+    #     value = value.strip() 
+        
+    #     # 1. Validar que solo contenga letras, espacios, ñ, tildes y guiones 
+    #     # Permitir caracteres Unicode (para ñ, tildes, etc.) 
+    #     if not re.match(r'^[A-Za-záéíóúÁÉÍÓÚñÑüÜ\s\-]+$', value): 
+    #         raise ValidationError( 
+    #             f'El {field_name} solo debe contener letras, espacios, ñ, tildes y guiones.' 
+    #         ) 
+        
+    #     # 2. Validar que no contenga URLs o caracteres sospechosos 
+    #     suspicious_patterns = [ 
+    #         r'https?://',      # URLs 
+    #         r'www\.',          # URLs sin http 
+    #         r'\.com',          # Dominios 
+    #         r'\.org',          # Dominios 
+    #         r'<[^>]+>',        # Tags HTML 
+    #         r'[{}()\[\]]',     # Corchetes y llaves 
+    #         r'[#@$%^&*+=]',    # Caracteres especiales comunes en spam 
+    #         r'código',         # Palabras clave sospechosas 
+    #         r'codigo', 
+    #         r'descuento', 
+    #         r'promoción', 
+    #         r'bugs', 
+    #         r'seguridad', 
+    #     ] 
+        
+    #     for pattern in suspicious_patterns: 
+    #         if re.search(pattern, value, re.IGNORECASE): 
+    #             raise ValidationError( 
+    #                 f'El {field_name} contiene caracteres o palabras no permitidas.' 
+    #             ) 
+        
+    #     # 3. Validar longitud mínima y máxima 
+    #     if len(value) < 3: 
+    #         raise ValidationError(f'El {field_name} debe tener al menos 3 caracteres.') 
+    #     if len(value) > 30: 
+    #         raise ValidationError(f'El {field_name} no puede exceder los 30 caracteres.') 
+        
+    #     # 4. Validar que no sea solo espacios 
+    #     if value.isspace(): 
+    #         raise ValidationError(f'El {field_name} no puede estar vacío.') 
+        
+    #     return value.title()  # Capitalizar el nombre
+
+# END COMMENTED
+
     def clean_email(self):
+        # traigo el email que escribió el usuario
         email_field = self.cleaned_data['email']
+        
+        # aplico utils.py (Limpia espacios, minúsculas y valida)
+        email_field = validate_email_username(email_field)
+        
+        # si el morocho ya existe, avisa:
         if User.objects.filter(email=email_field).exists():
             raise forms.ValidationError('Este correo electrónico ya se encuentra registrado')
+            
         return email_field
+        
+    # def clean_email(self): ## esto andaba pero no verificaba el email
+    #     email_field = self.cleaned_data['email']
+    #     if User.objects.filter(email=email_field).exists():
+    #         raise forms.ValidationError('Este correo electrónico ya se encuentra registrado')
+    #     return email_field
 
     def save(self, commit=True):
+        """Guarda el email limpio en el campo username del usuario"""
         user = super(RegisterForm, self).save(commit=False)
         user.username = self.cleaned_data['email']
         user.email = self.cleaned_data['email']
