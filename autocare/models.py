@@ -100,7 +100,6 @@ class Vehicle(models.Model):
         from django.db.models import Sum
         return self.service_set.aggregate(total_cost=Sum('cost'))['total_cost'] or 0
 
-
 # listamos los servicios que puede recibir el vehiculo
 class Service(models.Model):
     
