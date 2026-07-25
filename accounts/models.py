@@ -3,6 +3,7 @@ from django.contrib.auth.models import User
 from django.db.models.signals import post_save
 from .utils import validate_name_field, validate_email_username
 from django.core.exceptions import ValidationError
+from django_countries.fields import CountryField
 
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='profile', verbose_name='Usuario')
@@ -13,6 +14,12 @@ class Profile(models.Model):
     city = models.CharField(max_length=100, blank=True, null=True, verbose_name='Ciudad')
     zip_code = models.CharField(max_length=10, blank=True, null=True, verbose_name='Código Postal')
     location = models.CharField(max_length=100, blank=True, null=True, verbose_name='Barrio')
+    country = CountryField(
+        #blank_strip=True, 
+        blank=True, 
+        null=True, 
+        verbose_name='País'
+    )
     created_at = models.DateField(auto_now_add=True)
     # Campos específicos para Profesionales
     garage = models.CharField(max_length=255, blank=True, null=True, verbose_name='Nombre del Taller')
