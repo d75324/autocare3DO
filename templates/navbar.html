@@ -91,35 +91,53 @@
         {% endif %}
       </ul>
 
-      <!-- Right side buttons -->
-      <div class="d-flex align-items-center gap-2">
-        {% if user.is_authenticated %}
-          <!-- no necesitamos el nombre del usuario aqui: 
-          <span class="user-greeting d-none d-md-inline me-2">
-            <i class="fas fa-user-circle me-1"></i>
-            {{ user.first_name|default:user.username }}
-          </span> -->
-          
-          <!-- Logout button -->
-          <form method="post" action="{% url 'logout' %}" style="margin: 0;">
-            {% csrf_token %}
-            <button type="submit" class="btn btn-logout">
-              <i class="fas fa-sign-out-alt me-1"></i>
-              <span class="d-none d-md-inline">Cerrar Sesión</span>
-            </button>
-          </form>
-        {% else %}
-          <!-- Guest buttons -->
-          <a href="{% url 'login' %}" class="btn btn-outline me-2">
-            <i class="fas fa-sign-in-alt"></i>
-            <span class="d-none d-md-inline ms-1">Ingresar</span>
-          </a>
-          <a href="{% url 'register' %}" class="btn btn-primary">
-            <i class="fas fa-user-plus"></i>
-            <span class="d-none d-md-inline ms-1">Registrarse</span>
-          </a>
-        {% endif %}
-      </div>
+
+
+
+
+
+
+<!-- Right side buttons -->
+<div class="d-flex align-items-center gap-2">
+  {% if user.is_authenticated %}
+    
+    <!-- Country Code Badge (Recuadro del País) -->
+    <div class="country-badge border rounded px-2 py-1 d-inline-flex align-items-center justify-content-center text-uppercase fw-bold" 
+         title="País: {{ user.profile.country.name|default:'No especificado' }}"
+         style="font-size: 0.85rem; letter-spacing: 0.5px; height: 38px; min-width: 38px;">
+      
+      <!-- Mostramos las 2 letras del código de país (.code) o '--' si es None/vacío -->
+      {{ user.profile.country.code|default:"--" }}
+      
+    </div>
+
+    <!-- Logout button -->
+    <form method="post" action="{% url 'logout' %}" style="margin: 0;">
+      {% csrf_token %}
+      <button type="submit" class="btn btn-logout">
+        <i class="fas fa-sign-out-alt me-1"></i>
+        <span class="d-none d-md-inline">Cerrar Sesión</span>
+      </button>
+    </form>
+    
+  {% else %}
+    <!-- Guest buttons -->
+    <a href="{% url 'login' %}" class="btn btn-outline me-2">
+      <i class="fas fa-sign-in-alt"></i>
+      <span class="d-none d-md-inline ms-1">Ingresar</span>
+    </a>
+    <a href="{% url 'register' %}" class="btn btn-primary">
+      <i class="fas fa-user-plus"></i>
+      <span class="d-none d-md-inline ms-1">Registrarse</span>
+    </a>
+  {% endif %}
+</div>
+
+
+
+
+
+
     </div>
   </div>
 </nav>
