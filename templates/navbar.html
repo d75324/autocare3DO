@@ -12,7 +12,12 @@
 
   <div class="container-fluid" style="max-width: 1200px; margin: 0 auto; padding: 0 2rem;">
     <!-- Logo -->
-    <a class="navbar-brand d-flex align-items-center" href="{% if user.is_authenticated %}{% url 'profile' %}{% else %}{% url 'home' %}{% endif %}">
+    <a class="navbar-brand d-flex align-items-center" href="
+    {% if user.is_authenticated %}
+    	{% url 'profile' %}
+    {% else %}{% url 'home' %}
+    	{% endif %}
+    ">
       <img src="{% static 'your_app/img/logoautos.png' %}" alt="AutoCare" style="height: 40px; margin-right: 0.5rem;" onerror="this.style.display='none'; this.nextElementSibling.style.display='inline';">
       <i class="fas fa-car" style="display: none;"></i>
       <span class="navbar-brand-text">AutoCare</span>
@@ -27,43 +32,26 @@
     <div class="collapse navbar-collapse" id="navbarNav">
       <ul class="navbar-nav me-auto">
         {% if user.is_authenticated %}
+          <!-- Inicio/Home para todos los usuarios autenticados -->
           <li class="nav-item">
             <a class="nav-link" href="{% url 'profile' %}">
-              <i class="fas fa-tachometer-alt me-1"></i>
+              <i class="fas fa-home me-1"></i>
               Home
             </a>
           </li>
-          <!-- Add more authenticated navigation items here -->
+
+          <!-- SOLO visible si está autenticado Y es particular -->
           {% if user.profile.is_particular %}
-            <!--
             <li class="nav-item">
-              <a class="nav-link" href="#">
-                <i class="fas fa-car me-1"></i>
-                Mis Vehículos
-              </a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="#">
-                <i class="fas fa-tools me-1"></i>
-                Servicios
-              </a>
-            </li> -->
-          {% elif user.profile.is_mechanic %}
-          <!--   
-          <li class="nav-item">
-              <a class="nav-link" href="#">
+              <a class="nav-link" href="{% url 'mechanics' %}">
                 <i class="fas fa-wrench me-1"></i>
-                Trabajos
+                Mecánicos en mi área
               </a>
             </li>
-            <li class="nav-item">
-              <a class="nav-link" href="#">
-                <i class="fas fa-users me-1"></i>
-                Clientes
-              </a>
-            </li>-->
           {% endif %}
+          
         {% else %}
+          <!-- Menú para visitantes sin autenticar -->
           <li class="nav-item">
             <a class="nav-link" href="{% url 'home' %}">
               <i class="fas fa-home me-1"></i>
@@ -79,64 +67,49 @@
           <li class="nav-item">
             <a class="nav-link smooth-scroll" href="#benefits">
               <i class="fas fa-question-circle me-1"></i>
-              ¿Por que AutoCare?
+              ¿Por qué AutoCare?
             </a>
           </li>
-                    <li class="nav-item">
-            <a class="nav-link smooth-scroll" href="{% url 'mechanics' %}">
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'mechanics' %}">
               <i class="fas fa-wrench me-1"></i>
-              Mecanicos
+                Mecanicos
             </a>
           </li>
         {% endif %}
       </ul>
 
+      <!-- Right side buttons -->
+      <div class="d-flex align-items-center gap-2">
+        {% if user.is_authenticated %}
+          <!-- Country Code Badge -->
+          <div class="country-badge border rounded px-2 py-1 d-inline-flex align-items-center justify-content-center text-uppercase fw-bold" 
+               title="País: {{ user.profile.country.name|default:'No especificado' }}"
+               style="font-size: 0.85rem; letter-spacing: 0.5px; height: 38px; min-width: 38px;">
+            {{ user.profile.country.code|default:"--" }}
+          </div>
 
-
-
-
-
-
-<!-- Right side buttons -->
-<div class="d-flex align-items-center gap-2">
-  {% if user.is_authenticated %}
-    
-    <!-- Country Code Badge (Recuadro del País) -->
-    <div class="country-badge border rounded px-2 py-1 d-inline-flex align-items-center justify-content-center text-uppercase fw-bold" 
-         title="País: {{ user.profile.country.name|default:'No especificado' }}"
-         style="font-size: 0.85rem; letter-spacing: 0.5px; height: 38px; min-width: 38px;">
-      
-      <!-- Mostramos las 2 letras del código de país (.code) o '--' si es None/vacío -->
-      {{ user.profile.country.code|default:"--" }}
-      
-    </div>
-
-    <!-- Logout button -->
-    <form method="post" action="{% url 'logout' %}" style="margin: 0;">
-      {% csrf_token %}
-      <button type="submit" class="btn btn-logout">
-        <i class="fas fa-sign-out-alt me-1"></i>
-        <span class="d-none d-md-inline">Cerrar Sesión</span>
-      </button>
-    </form>
-    
-  {% else %}
-    <!-- Guest buttons -->
-    <a href="{% url 'login' %}" class="btn btn-outline me-2">
-      <i class="fas fa-sign-in-alt"></i>
-      <span class="d-none d-md-inline ms-1">Ingresar</span>
-    </a>
-    <a href="{% url 'register' %}" class="btn btn-primary">
-      <i class="fas fa-user-plus"></i>
-      <span class="d-none d-md-inline ms-1">Registrarse</span>
-    </a>
-  {% endif %}
-</div>
-
-
-
-
-
+          <!-- Logout button -->
+          <form method="post" action="{% url 'logout' %}" style="margin: 0;">
+            {% csrf_token %}
+            <button type="submit" class="btn btn-logout">
+              <i class="fas fa-sign-out-alt me-1"></i>
+              <span class="d-none d-md-inline">Cerrar Sesión</span>
+            </button>
+          </form>
+          
+        {% else %}
+          <!-- Guest buttons -->
+          <a href="{% url 'login' %}" class="btn btn-outline me-2">
+            <i class="fas fa-sign-in-alt"></i>
+            <span class="d-none d-md-inline ms-1">Ingresar</span>
+          </a>
+          <a href="{% url 'register' %}" class="btn btn-primary">
+            <i class="fas fa-user-plus"></i>
+            <span class="d-none d-md-inline ms-1">Registrarse</span>
+          </a>
+        {% endif %}
+      </div>
 
     </div>
   </div>
@@ -362,6 +335,22 @@
       margin-top: 0.5rem;
     }
   }
+
+  /* VER: para navbar oscuro */
+  /* 
+  .navbar-dark .country-badge {
+  color: #ffffff;
+  border-color: rgba(255, 255, 255, 0.3) !important;
+  background-color: rgba(255, 255, 255, 0.05);
+}
+  */
+
+/* VER: para navbar claro */
+.navbar-light .country-badge {
+  color: #333333;
+  border-color: #cccccc !important;
+  background-color: #f8f9fa;
+}
 </style>
 
 <script>
