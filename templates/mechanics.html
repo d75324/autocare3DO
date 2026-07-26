@@ -3,7 +3,7 @@
 {% block content %}
 <div class="container mt-5">
 
-    <h2>Encuentre aquí al próximo mecánico de su automovil!</h2>
+    <h2>Encuentre aquí al próximo mecánico de su automóvil!</h2>
 
     {% if total_mechanics %}
         <p class="text-muted">Total de mecánicos registrados: <strong>{{ total_mechanics }}</strong></p>
@@ -39,21 +39,44 @@
                             
                             <div class="flex-grow-1 border-start ps-3">
                                 <ul class="list-unstyled mb-0">
+                                    {% if user.is_authenticated %}
+                                        <!-- Información visible solo para usuarios registrados -->
+                                        <li class="mb-1">
+                                            <i class="fas fa-at me-2 text-success"></i> 
+                                            {{ mecanico.email }}
+                                        </li>
+                                        <li class="mb-1">
+                                            <i class="fas fa-phone me-2 text-success"></i> 
+                                            {{ mecanico.profile.telephone }}
+                                        </li>
+                                        <li class="mb-1">
+                                            <i class="fas fa-map-marker-alt me-2 text-success"></i> 
+                                            {{ mecanico.profile.address }}
+                                        </li>
+                                    {% else %}
+                                        <!-- Ocultar datos privados a visitantes no registrados -->
+                                        <li class="mb-1 text-muted">
+                                            <i class="fas fa-at me-2 text-secondary"></i> 
+                                            <span class="fst-italic">••••••••@••••.com</span>
+                                        </li>
+                                        <li class="mb-1 text-muted">
+                                            <i class="fas fa-phone me-2 text-secondary"></i> 
+                                            <span class="fst-italic">+•• ••• •••••••</span>
+                                        </li>
+                                        <li class="mb-1 text-muted">
+                                            <i class="fas fa-map-marker-alt me-2 text-secondary"></i> 
+                                            <span class="fst-italic">Dirección: •••••• </span>
+                                        </li>
+                                    {% endif %}
+
+                                    <!-- Ciudad y País permanecen visibles siempre -->
                                     <li class="mb-1">
-                                        <i class="fas fa-envelope me-2 text-primary"></i> 
-                                        {{ mecanico.email }}
-                                    </li>
-                                    <li class="mb-1">
-                                        <i class="fas fa-phone me-2 text-success"></i> 
-                                        {{ mecanico.profile.telephone }}
-                                    </li>
-                                    <li>
-                                        <i class="fas fa-map-marker-alt me-2 text-danger"></i>
-                                        {{ mecanico.profile.address }}
-                                    </li>
-                                    <li class="mb-1">
-                                        <i class="fas fa-city me-2 text-info"></i> 
+                                        <i class="fas fa-city me-2 text-success"></i> 
                                         {{ mecanico.profile.location }}
+                                    </li>
+                                    <li class="mb-1">
+                                        <i class="fas fa-earth-americas me-2 text-success"></i> 
+                                        {{ mecanico.profile.country.name }}
                                     </li>
                                 </ul>
                             </div>                           
@@ -62,22 +85,16 @@
                         <hr class="mt-auto">
 
                         <div class="d-flex gap-2 justify-content-center">
-                            <a href="#" 
-                               class="btn btn-primary btn-sm disabled" 
-                               aria-disabled="true" 
-                               title="Funcionalidad en desarrollo">
-                               <!-- <i class="fas fa-wrench me-1"></i> -->
+                            {% if user.is_authenticated %}
+                                <a href="mailto: AutoCare <{{ mecanico.email }}>?subject=Hola! Contacto desde el portal de AutoCare" class="btn btn-outline me-2" style="border: 1px solid #085217;">
                                 Contactar
-                            </a>
-                            <!--
-                            <a href="#" 
-                               class="btn btn-outline-secondary btn-sm disabled" 
-                               aria-disabled="true"
-                               title="Funcionalidad en desarrollo">
-                                <i class="fas fa-info-circle me-1"></i> 
-                                Ver Detalles
-                            </a>
-                            -->
+                                </a>
+                            {% else %}
+                                <a href="{% url 'register' %}" class="btn btn-outline me-2" style="border: 1px solid #085217;">
+                                    <i class="fas fa-user-plus me-1"></i>
+                                    Regístrese para acceder a información de contacto
+                                </a>
+                            {% endif %}
                         </div>
                         
                     </div>
@@ -92,16 +109,6 @@
     {% endif %}
 
     <hr class="mt-4 mb-4">
-
-<!--     
-    
-    {# Botones Globales (Separados y Redondeados) #}
-    <div class="d-flex justify-content-end gap-3">
-        <a href="#" class="btn btn-primary rounded-pill disabled" aria-disabled="true">Botón 1</a>
-        <a href="#" class="btn btn-secondary rounded-pill disabled" aria-disabled="true">Botón 2</a>
-        <a href="#" class="btn btn-success rounded-pill disabled" aria-disabled="true">Botón 3</a>
-    </div>
--->
 
 </div>
 {% endblock content %}
