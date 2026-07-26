@@ -443,32 +443,69 @@
                             </div>
                         </div>
 
+
+
+
+                    <!-- User Type and Country Row -->
+                    <div class="row">
                         <!-- User Type Selection -->
-                        <div class="form-floating-modern">
-                            <select 
-                                id="{{ form.group.id_for_label }}"
-                                name="{{ form.group.name }}"
-                                required
-                                class="{% if form.group.errors %}border-danger{% endif %}"
-                            >
-                                <option value="">Seleccione el tipo de uso</option>
-                                {% for value, label in form.group.field.choices %}
-                                    {% if value %}
-                                        <option value="{{ value }}" {% if form.group.value == value %}selected{% endif %}>
+                        <div class="col-md-6">
+                            <div class="form-floating-modern">
+                                <select 
+                                    id="{{ form.group.id_for_label }}"
+                                    name="{{ form.group.name }}"
+                                    required
+                                    class="{% if form.group.errors %}border-danger{% endif %}"
+                                >
+                                    <option value="">Seleccione el tipo de uso</option>
+                                    {% for value, label in form.group.field.choices %}
+                                        {% if value %}
+                                            <option value="{{ value }}" {% if form.group.value == value %}selected{% endif %}>
+                                                {{ label }}
+                                            </option>
+                                        {% endif %}
+                                    {% endfor %}
+                                </select>
+                                <label for="{{ form.group.id_for_label }}">Tipo de Usuario</label>
+                                <i class="fas fa-users form-icon"></i>
+                                {% if form.group.errors %}
+                                    <div class="error-message">
+                                        <i class="fas fa-exclamation-circle"></i>
+                                        <span>{{ form.group.errors.0 }}</span>
+                                    </div>
+                                {% endif %}
+                            </div>
+                        </div>
+
+                        <!-- Country Selection -->
+                        <div class="col-md-6">
+                            <div class="form-floating-modern">
+                                <select 
+                                    id="{{ form.country.id_for_label }}"
+                                    name="{{ form.country.name }}"
+                                    required
+                                    class="{% if form.country.errors %}border-danger{% endif %}"
+                                    >
+                                    {% for value, label in form.country.field.choices %}
+                                        <option value="{{ value }}" {% if form.country.value == value %}selected{% endif %}>
                                             {{ label }}
                                         </option>
-                                    {% endif %}
-                                {% endfor %}
-                            </select>
-                            <label for="{{ form.group.id_for_label }}">Tipo de Usuario</label>
-                            <i class="fas fa-users form-icon"></i>
-                            {% if form.group.errors %}
-                                <div class="error-message">
-                                    <i class="fas fa-exclamation-circle"></i>
-                                    <span>{{ form.group.errors.0 }}</span>
-                                </div>
-                            {% endif %}
+                                    {% endfor %}
+                                </select>
+                                <label for="{{ form.country.id_for_label }}">País</label>
+                                <i class="fas fa-globe form-icon"></i>
+                                {% if form.country.errors %}
+                                    <div class="error-message">
+                                        <i class="fas fa-exclamation-circle"></i>
+                                        <span>{{ form.country.errors.0 }}</span>
+                                    </div>
+                                {% endif %}
+                            </div>
                         </div>
+                    </div>
+
+
+
 
                         <!-- User Type Info -->
                         <div class="user-type-info">
@@ -505,6 +542,7 @@
                     </div>
 
                     <!-- Features -->
+                    <!-- 
                     <div style="margin-top: 2rem; padding: 1.5rem; background: rgba(16, 185, 129, 0.05); border-radius: 16px; border: 1px solid rgba(16, 185, 129, 0.1);">
                         <h6 style="color: #1F2937; margin-bottom: 1rem; font-weight: 600; text-align: center;">
                             <i class="fas fa-gift" style="color: #10B981; margin-right: 8px;"></i>
@@ -537,7 +575,8 @@
                             </div>
                         </div>
                     </div>
-                </div>
+                    -->
+                </div><br>
             </div>
         </div>
     </div>
