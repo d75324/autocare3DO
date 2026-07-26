@@ -5,6 +5,8 @@ from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
 from accounts.models import Profile
 from django.core.exceptions import ValidationError
 from accounts.utils import validate_name_field, validate_email_username
+from django_countries.fields import CountryField
+from django_countries.widgets import CountrySelectWidget
 import re
 
 class LoginForm(AuthenticationForm):
@@ -20,11 +22,23 @@ class RegisterForm(UserCreationForm):
     first_name = forms.CharField(label='Nombre')
     last_name = forms.CharField(label='Apellido')
     group = forms.ModelChoiceField(queryset=Group.objects.none(), required=True, label='Tipo de Uso: ')
+    country = CountryField(
+        blank_label="Seleccione un país",
+    ).formfield(
+        required=True,
+        widget=CountrySelectWidget(attrs={
+            'class': 'form-select',
+        }),
+        error_messages={
+            'required': 'Por favor seleccione su país de residencia.'
+        }
+    )
 
     class Meta:
         model = User
-        fields = ['email', 'first_name', 'last_name'] ## ATENTO: UserCreationForm ya maneja internamente password1 y password2 ###
-        #fields = ['email', 'first_name', 'last_name', 'password1', 'password2']
+        # fields = ['email', 'first_name', 'last_name'] ## ATENTO: UserCreationForm ya maneja internamente password1 y password2 ###
+        # fields = ['email', 'first_name', 'last_name', 'password1', 'password2']
+        fields = ['email', 'first_name', 'last_name', 'group', 'country'] # Agregamos country
     
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
