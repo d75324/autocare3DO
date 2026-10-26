@@ -1,3 +1,4 @@
+from django.db.models import Q
 from django import forms
 from django.contrib.auth.models import User, Group
 from .models import Vehicle, Service
@@ -203,7 +204,8 @@ class ServiceForm(forms.ModelForm):
         user = kwargs.pop('user', None)
         super(ServiceForm, self).__init__(*args, **kwargs)
         if user:
-            self.fields['vehicle'].queryset = Vehicle.objects.filter(owner=user)
+            # vehículos propios y, si es mecánico, los asignados
+            self.fields['vehicle'].queryset = Vehicle.objects.filter(Q(owner=user) | Q(car_mechanic=user)).distinct()
             # Inicializa el campo 'coments' con el nombre del usuario
             self.fields['coments'].initial = f"Autor: {user.get_full_name()}"
         else:

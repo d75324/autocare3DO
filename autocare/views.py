@@ -12,6 +12,15 @@ from django.contrib.auth.views import LoginView
 from autocare.forms import LoginForm
 import csv, logging
 from django.http import HttpResponse, HttpResponseRedirect
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.db.models import Q
+
+
+# Vehículos a los que el usuario tiene acceso: los propios y, si es mecánico,
+# los que tiene asignados. Para cualquier otro vehículo las vistas devuelven 404
+# (no 403), así no se revela qué IDs existen.
+def accessible_vehicles(user):
+    return Vehicle.objects.filter(Q(owner=user) | Q(car_mechanic=user)).distinct()
 
 # importo estos recursos para crear una vista personalizada de restablecimiento de contraseña
 #from django.contrib.auth.views import PasswordResetView
@@ -100,7 +109,7 @@ class RegisterView(View):
 
 
 # pagina de perfil
-class ProfileView(TemplateView):
+class ProfileView(LoginRequiredMixin, TemplateView):
     template_name = 'profile/profile.html'
 
     def get_queryset(self):
@@ -159,11 +168,13 @@ class ProfileView(TemplateView):
         return render(request, 'profile/profile.html', context)
 
 
-#class VehicleListView(ListView):
-class VehicleListView(ListView):
+class VehicleListView(LoginRequiredMixin, ListView):
     model = Vehicle
     template_name = 'cars.html'
     context_object_name = 'vehicles'
+
+    def get_queryset(self):
+        return Vehicle.objects.filter(owner=self.request.user)
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -205,19 +216,23 @@ class VehicleListView(ListView):
 
 
 # Aquí vamos a agregar un botón para descargar en CSV todos los servicios hechos al auto.
-class VehicleDetailView(DetailView):
+class VehicleDetailView(LoginRequiredMixin, DetailView):
     model = Vehicle
     template_name = 'vehicle_detail.html'
 
+    def get_queryset(self):
+        # dueño o mecánico asignado
+        return accessible_vehicles(self.request.user)
+
     def get_context_data(self, **kwargs): 
         context = super().get_context_data(**kwargs) 
-        vehicle = self.get_object() 
+        vehicle = self.object
         context['total_cost'] = vehicle.total_service_cost() 
         return context
 
 
 
-class AddServiceView(TemplateView):
+class AddServiceView(LoginRequiredMixin, TemplateView):
     #model = Service
     template_name = 'service.html'
 
@@ -228,7 +243,7 @@ class AddServiceView(TemplateView):
 
     def get(self, request, pk, *args, **kwargs):
         context = self.get_context_data()
-        vehicle = get_object_or_404(Vehicle, pk=pk)
+        vehicle = get_object_or_404(accessible_vehicles(request.user), pk=pk)
         last_service = Service.objects.filter(vehicle=vehicle).order_by('-date').first() # ultimo kilometraje
         initial_kilometers = last_service.kilometers if last_service else vehicle.mileage
 
@@ -239,13 +254,14 @@ class AddServiceView(TemplateView):
         return self.render_to_response(context)
 
     def post(self, request, pk, *args, **kwargs):
-        vehicle = get_object_or_404(Vehicle, pk=pk)
+        vehicle = get_object_or_404(accessible_vehicles(request.user), pk=pk)
         form = ServiceForm(request.POST, user=request.user)  # Paso el usuario al formulario
         if form.is_valid():
             service = form.save(commit=False)
             service.owner = request.user
             service.save()
-            # voy a actualizar el kilometraje del vehículo y después lo guardo
+            # actualizo el kilometraje del vehículo al que realmente se le cargó el servicio
+            vehicle = service.vehicle
             vehicle.mileage = service.kilometers
             vehicle.save() # guardado!
             return redirect('profile')
@@ -255,7 +271,7 @@ class AddServiceView(TemplateView):
 
 
 # vista del histórico de servicios - nop!
-class ServicesView(ListView):
+class ServicesView(LoginRequiredMixin, ListView):
     model = Service
     template_name = 'servicelist.html'
     context_object_name = 'object_list'
@@ -278,10 +294,14 @@ class VehicleServiceListView(TemplateView):
     pass
 
 
-class VehicleDeleteView(DeleteView):
+class VehicleDeleteView(LoginRequiredMixin, DeleteView):
     model = Vehicle
     template_name = 'vehicle_confirm_delete.html'
     success_url = reverse_lazy('profile')
+
+    def get_queryset(self):
+        # solo el dueño puede borrar; el mecánico asignado no
+        return Vehicle.objects.filter(owner=self.request.user)
 
     def delete(self, request, *args, **kwargs):
         self.object = self.get_object()
@@ -295,11 +315,12 @@ class CustomLoginView(LoginView):
 
 
 # vista para descargar el CSV con el listado de los servicios realizados a un vehículo.
-class DownloadCSVView(View):
+class DownloadCSVView(LoginRequiredMixin, View):
     def get(self, request, *args, **kwargs):
-        # obtenemos el ID del vehículo desde el argumento de la URL
+        # obtenemos el ID del vehículo desde el argumento de la URL;
+        # solo el dueño o el mecánico asignado pueden descargarlo
         vehicle_id = self.kwargs['vehicle_id']
-        vehicle = Vehicle.objects.get(id=vehicle_id)
+        vehicle = get_object_or_404(accessible_vehicles(request.user), id=vehicle_id)
 
         # creamos respuesta HTTP con el tipo de contenido CSV
         response = HttpResponse(content_type='text/csv')
